@@ -57,3 +57,7 @@ home/.config/rclone/rclone.conf
 .gitconfig.local
 .rclone.conf
 linus.yaml
+
+# Windows portion
+windows/Help
+*.bak

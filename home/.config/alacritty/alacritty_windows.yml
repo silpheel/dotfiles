@@ -33,9 +33,10 @@ window:
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
+  # Known difference: some offset required when maximized without decorations
   padding:
-    x: 0
-    y: 0
+    x: 10
+    y: 10
 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: false
@@ -60,7 +61,8 @@ window:
   #
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
-  startup_mode: Fullscreen
+  # Known difference: Fullscreen triggers always on top with undesired effects
+  startup_mode: Maximized
 
   # Window title
   #title: Alacritty
@@ -99,7 +101,8 @@ font:
     #   - (macOS) Menlo
     #   - (Linux) monospace
     #   - (Windows) Consolas
-    family: SauceCodePro Nerd Font
+    # Known difference: font name is different
+    family: Source Code Pro
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -110,7 +113,8 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: SauceCodePro Nerd Font
+    # Known difference: font name is different
+    family: Source Code Pro
 
     # The `style` can be specified to pick a specific face.
     style: Semibold
@@ -121,7 +125,8 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: SauceCodePro Nerd Font
+    # Known difference: font name is different
+    family: Source Code Pro
 
     # The `style` can be specified to pick a specific face.
     style: Medium Italic
@@ -305,10 +310,18 @@ live_config_reload: true
 #   - (macOS) /bin/bash --login
 #   - (Linux) user login shell
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
-#  args:
-#    - --login
+# Known difference: executable is OS specific
+shell:
+  program: C:\Program Files\PowerShell\7-preview\pwsh
+  args:
+    [
+        -ExecutionPolicy Unrestricted,
+        -NoExit,
+        # -NoLogo,
+        -NoProfile,
+        # -WorkingDirectory C:\Users\silph\.dotfiles,
+        -File C:\Users\silph\.dotfiles\windows\Microsoft.PowerShell_profile.ps1
+    ]
 
 # Startup directory
 #
@@ -378,9 +391,10 @@ mouse:
     #   - (macOS) open
     #   - (Linux) xdg-open
     #   - (Windows) explorer
-    #launcher:
-    #  program: xdg-open
-    #  args: []
+    # Known difference: executable is OS specific
+    launcher:
+      program: explorer
+      args: []
 
     # URL modifiers
     #
@@ -529,18 +543,18 @@ mouse_bindings:
 # binding with the same triggers is defined. To unset a default binding, it can
 # be mapped to the `None` action.
 key_bindings:
-  - { key: Key0,   mods: Command,         action: ResetFontSize    }
-  - { key: Equals, mods: Command,         action: IncreaseFontSize }
-  - { key: Add,    mods: Command,         action: IncreaseFontSize }
-  - { key: Minus,  mods: Command,         action: DecreaseFontSize }
-  - { key: K,      mods: Command,         action: ClearHistory     }
-  - { key: K,      mods: Command,         chars: "\x0c"            }
-  - { key: V,      mods: Command,         action: Paste            }
-  - { key: C,      mods: Command,         action: Copy             }
-  - { key: H,      mods: Command,         action: Hide             }
-  - { key: Q,      mods: Command,         action: Quit             }
-  - { key: W,      mods: Command,         action: Quit             }
-  - { key: F,      mods: Command|Control, action: ToggleFullscreen }
+# Known differences: OS specific key bindings
+
+  - { key: Key0,     mods: Control,       action: ResetFontSize    }
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  - { key: V,        mods: Control|Shift, action: Paste            }
+  - { key: C,        mods: Control|Shift, action: Copy             }
+  - { key: Add,      mods: Control,       action: IncreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+  - { key: Insert,   mods: Shift,         action: PasteSelection   }
+  - { key: Subtract, mods: Control,       action: DecreaseFontSize }
+  - { key: Return,   mods: Alt,           action: ToggleFullscreen }
+
 
   - { key: Paste,                   action: Paste                            }
   - { key: Copy,                    action: Copy                             }
@@ -648,9 +662,3 @@ key_bindings:
   - { key: F11,      mods: Super,   chars: "\x1b[23;3~"                      }
   - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                      }
   - { key: NumpadEnter,             chars: "\n"                              }
-
-  # @danemacmillan custom.
-  # Restore tmux keybinding for swapping windows: https://github.com/jwilm/alacritty/issues/1385
-  - { key: Left,     mods: Control|Shift,   chars: "\x1b[1;6D"           }
-  - { key: Right,    mods: Control|Shift,   chars: "\x1b[1;6C"           }
-

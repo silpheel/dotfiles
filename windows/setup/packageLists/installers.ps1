@@ -15,6 +15,13 @@ function ManualDLInstall($url, $filename, $args){
     Wait-Process -Name "$name"
 }
 
+# PowerShell Core Preview (current stable does not accept arguments)
+$metadata = Invoke-RestMethod https://raw.githubusercontent.com/PowerShell/PowerShell/master/tools/metadata.json
+$release = $metadata.PreviewReleaseTag -replace '^v'
+$architecture = "x64"
+$packageName = "PowerShell-${release}-win-${architecture}.msi"
+ManualDLInstall $packageName "powershell-core-${release}.msi" "/quiet /passive /norestart"
+
 ### Not in choco
 # ManualDLInstall "https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=BATTLENET_APP" "battle.net installer.exe"
 ManualDLInstall "https://gamedownloads.rockstargames.com/public/installer/Rockstar-Games-Launcher.exe" "Rockstar Games Launcher installer.exe"

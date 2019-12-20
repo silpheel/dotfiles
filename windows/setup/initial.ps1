@@ -1,3 +1,7 @@
+# Unblock scripts in the dotfiles folder
+
+Get-ChildItem *.ps1 -Recurse | Unblock-File
+
 # REGISTRY KEYS FOR CONFIG
 
 $RegSettings = @{

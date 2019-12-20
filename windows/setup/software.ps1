@@ -34,7 +34,7 @@ iex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI -Preview"
 Write-Host "Installing Desktop Utilities..." @colorFeedbackHighlight
 if ((which cinst) -eq $null) {
     Invoke-Expression ". ~\.dotfiles\windows\setup\packageLists\choco.ps1"
-    iex (new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')
+    Invoke-Expression (new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')
     Refresh-Environment
     choco feature enable -n=allowGlobalConfirmation
     Command-ManagerLoop -Command "install" -packageList $chocoPackageList -manager "choco"

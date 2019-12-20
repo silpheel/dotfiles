@@ -79,6 +79,9 @@ function DotfileLoaded
 DotfileLoaded
 
 # Basic commands
+function Append-EnvPath([String]$path) { $env:PATH = $env:PATH + ";$path" }
+function Append-EnvPathIfExists([String]$path) { if (Test-Path $path) { Append-EnvPath $path } }
+
 function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object Definition }
 function touch($file) { "" | Out-File $file -Encoding ASCII }
 

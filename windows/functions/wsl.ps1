@@ -4,7 +4,7 @@ DotfileLoaded
 
 # https://devblogs.microsoft.com/commandline/integrate-linux-commands-into-windows-with-powershell-and-the-windows-subsystem-for-linux/
 # The commands to import.
-$commands = "awk", "emacs", "grep", "head", "less", "ls", "man", "sed", "seq", "ssh", "tail", "vim"
+$commands = "awk", "emacs", "grep", "head", "less", "ls", "man", "sed", "seq", "ssh", "tail", "vim", "diff-so-fancy"
 
 # Register a function for each command.
 $commands | ForEach-Object { Invoke-Expression @"
@@ -35,7 +35,7 @@ Register-ArgumentCompleter -CommandName $commands -ScriptBlock {
 
     # Map the command to the appropriate bash completion function.
     $F = switch ($commandAst.CommandElements[0].Value) {
-        {$_ -in "awk", "grep", "head", "less", "ls", "sed", "seq", "tail"} {
+        {$_ -in "awk", "grep", "head", "less", "ls", "sed", "seq", "tail", "diff-so-fancy"} {
             "_longopt"
             break
         }

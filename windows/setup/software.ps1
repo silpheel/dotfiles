@@ -27,8 +27,6 @@ Write-Host "Installing PowerShell Modules..." @colorFeedback
 Install-Module Posh-Git -Scope CurrentUser -Force
 Install-Module PSWindowsUpdate -Scope CurrentUser -Force
 dotnet tool install --global PowerShell
-# PowerShell Core Preview (current stable does not accept arguments)
-iex "& { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI -Preview"
 
 ### Chocolatey
 Write-Host "Installing Desktop Utilities..." @colorFeedbackHighlight

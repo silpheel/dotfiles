@@ -84,7 +84,7 @@ function Append-EnvPathIfExists([String]$path) { if (Test-Path $path) { Append-E
 
 function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object Definition }
 function touch($file) { "" | Out-File $file -Encoding ASCII }
-
+function adminShell {Start-Process alacritty -Verb RunAs}
 # Common Editing needs
 function Edit-Hosts { Invoke-Expression "sudo $(if($env:EDITOR -ne $null)  {$env:EDITOR } else { 'notepad' }) $env:windir\system32\drivers\etc\hosts" }
 function Edit-Profile { Invoke-Expression "$(if($env:EDITOR -ne $null)  {$env:EDITOR } else { 'notepad' }) $profile" }

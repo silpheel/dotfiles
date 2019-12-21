@@ -1,0 +1,37 @@
+"*":
+  core:
+    disabledPackages: [
+      "markdown-preview"
+    ]
+    telemetryConsent: "no"
+    uriHandlerRegistration: "always"
+  editor:
+    showIndentGuide: true
+    showInvisibles: true
+  "exception-reporting":
+    userId: "6d28f1dc-7be8-48cc-addb-3c083ebc6ada"
+  "linter-ui-default":
+    showPanel: true
+  minimap:
+    plugins:
+      bookmarks: true
+      bookmarksDecorationsZIndex: 0
+      cursorline: true
+      cursorlineDecorationsZIndex: 0
+      "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "lens-mode": true
+      "lens-modeDecorationsZIndex": 0
+      linter: true
+      linterDecorationsZIndex: 0
+      pigments: true
+      pigmentsDecorationsZIndex: 0
+      "split-diff": true
+      "split-diffDecorationsZIndex": 0
+  pigments:
+    groupPaletteColors: "by file"
+    sortPaletteColors: "by name"
+  welcome:
+    showOnStartup: false

@@ -14,12 +14,30 @@ if ((Get-Item $profileDir).Attributes.ToString().Contains("ReparsePoint"))  # Al
 New-Item -Value $env:userprofile\.dotfiles\windows -Path $profileDir\ -ItemType Junction
 Write-Host "$dest" @colorRegular
 
-Symlink $env:userprofile\.dotfiles\windows\Microsoft.PowerShell_profile.ps1 $env:userprofile\.dotfiles\windows\Microsoft.PowerShellISE_profile.ps1
-symlink $env:userprofile\.dotfiles\home\.config\alacritty\alacritty_windows.yml $env:appdata\alacritty\alacritty.yml
-symlink $env:userprofile\.dotfiles\home\atom\config.cson ~\.atom\config.cson
-symlink $env:userprofile\.dotfiles\home\atom\keymap.cson ~\.atom\keymap.cson
+$repo = $env:userprofile\.dotfiles\home\.config
 
-$myCommandDefinition = $MyInvocation.MyCommand.Definition.Replace($env:userprofile + "\.dotfiles\windows\", "")
-Write-Host "Loaded " -nonewline @colorFeedback
-Write-Host "$myCommandDefinition" -nonewline @colorFeedbackHighlight
-Write-Host "`n" @colorRegular
+# PowerShell
+Symlink $env:userprofile\.dotfiles\windows\Microsoft.PowerShell_profile.ps1 $env:userprofile\.dotfiles\windows\Microsoft.PowerShellISE_profile.ps1
+
+# Alacritty
+symlink $repo\alacritty\alacritty_windows.yml $env:appdata\alacritty\alacritty.yml
+
+# Atom
+symlink $base\atom\config.cson ~\.atom\config.cson
+symlink $repo\atom\keymap.cson ~\.atom\keymap.cson
+symlink $repo\atom\snippets.cson ~\.atom\snippets.cson
+symlink $repo\atom\init.coffee ~\.atom\init.coffee
+symlink $repo\atom\styles.less ~\.atom\styles.less
+
+# ShareX
+$documentsFolder = [environment]::getfolderpath("mydocuments")
+symlink $repo\sharex\ApplicationConfig.json $documentsFolder\ShareX\ApplicationConfig.json
+symlink $repo\sharex\HotkeysConfig.json $documentsFolder\ShareX\HotkeysConfig.json
+symlink $repo\sharex\UploadersConfig.json $documentsFolder\ShareX\UploadersConfig.json
+
+# Switcheroo - folder has version number and probably will change eventually
+$switcherooFolder = gci $env:localappdata\switcheroo | gci
+symlink $repo\switcheroo\user.config $switcherooFolder\user.config
+
+# Wox
+symlink $repo\wox\Settings.json $env:appdata\wox\Settings.json

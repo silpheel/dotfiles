@@ -1,6 +1,6 @@
 # Unblock scripts in the dotfiles folder
 
-Get-ChildItem *.ps1 -Recurse | Unblock-File
+Get-ChildItem $env:userprofile\.dotfiles\*.ps1 -Recurse | Unblock-File
 
 # REGISTRY KEYS FOR CONFIG
 
@@ -23,6 +23,8 @@ $RegSettings.Keys | ForEach-Object -process {
     Write-Progress -Activity "Environment variables" -Status "$perc% Complete:" -PercentComplete $perc -CurrentOperation $_
     [Environment]::SetEnvironmentVariable($_, $RegSettings[$_], "User")
 }
+
+Write-Progress -Completed
 
 $colorRegular = @{
   'ForegroundColor'= "White";

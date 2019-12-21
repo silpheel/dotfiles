@@ -545,4 +545,15 @@ New-Item -path 'HKCR:\DesktopBackground\shell' -Name "Alacritty here (Admin)"
 New-Item -path 'HKCR:\DesktopBackground\shell\Alacritty here (Admin)' -Name "Command"
 Set-Itemproperty -literalpath 'HKCR:\DesktopBackground\shell\Alacritty here (Admin)\Command' -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\nircmd.exe elevate C:\ProgramData\chocolatey\bin\alacritty.exe"
 
+# Seer settings
+New-Item -path 'HKCU:\Software' -Name "Corey"
+New-Item -path 'HKCU:\Software\Corey' -Name "Seer"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_shift" -Value "false"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_alt" -Value "false"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_ctrl" -Value "false"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "autorun" -Value "true"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "auto_update" -Value "true"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "open_with_default" -Value "true"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "use_trigger_key_close" -Value "true"
+
 Write-Host "Done. Note that some of these changes require a logout/restart to take effect." @colorFeedback

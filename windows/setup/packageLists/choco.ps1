@@ -66,4 +66,4 @@ $chocoPackageList =
 "Franz",        # chat
 "gimp",         # image edit
 "mkvtoolnix",   # matroska video
-"qbittorrent",  # bittorrent
+"qbittorrent"  # bittorrent

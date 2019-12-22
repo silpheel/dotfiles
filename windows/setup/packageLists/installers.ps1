@@ -29,7 +29,6 @@ ManualDLInstall "https://download.info.apple.com/Mac_OS_X/041-0257.20120611.MkI8
 
 ### Not working in choco
 # Karen
-# Seer
 # Ultracopier
 
 ### Latest in Choco is unstable

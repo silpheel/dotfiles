@@ -36,7 +36,7 @@ function getColor
 		[Parameter(Mandatory=$true)][string] $name
 	)
 	$key="DOTFILES_FORMAT_$name"
-	if (-not [Environment]::GetEnvironmentVariable($key, 'User')) {
+	if ([Environment]::GetEnvironmentVariable($key, 'User')) {
 		$regexPattern = "([a-zA-Z]*)[^a-zA-Z]([a-zA-Z]*)"
 		$raw = [System.Environment]::GetEnvironmentVariable($key, 'User')
 		return extractColorInfo $raw

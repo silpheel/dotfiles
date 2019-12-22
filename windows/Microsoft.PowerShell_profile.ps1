@@ -4,6 +4,9 @@ try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
 Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
+# support for unicode if not enabled by default
+$OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
+
 $installComplete = [Environment]::GetEnvironmentVariable("DOTFILES_INSTALLED", "User")
 if ($installComplete -eq "0") {
   Write-Host "Dotfiles installation" @colorFeedback
@@ -16,9 +19,6 @@ if ($installComplete -eq "0") {
   echo "we would exit here"
   break
 }
-
-# support for unicode if not envabled by default
-$OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
 
 $locations =
 "source/alias",     # shorthand and alternatives

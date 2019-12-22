@@ -60,4 +60,5 @@ linus.yaml
 
 # Windows portion
 windows/Help
+windows/Modules
 *.bak

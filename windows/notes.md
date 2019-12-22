@@ -11,7 +11,7 @@ Windows part inspired by, and contains code from, Jay Harris's dotfiles for Wind
 
 PowerShell one-liner to clone the report under the user profile folder:
 ```posh
-(New-Object Net.WebClient).DownloadFile("https://github.com/silpheel/dotfiles/archive/master.zip","$env:TEMP\dotfiles.zip");(new-object -com shell.application).namespace($env:USERPROFILE).CopyHere((new-object -com shell.application).namespace("$env:TEMP\dotfiles.zip").Items(),16);Rename-Item $env:USERPROFILE\dotfiles-master $env:USERPROFILE\.dotfiles;. $env:userprofile/.dotfiles/windows/setup/install.ps1
+(New-Object Net.WebClient).DownloadFile("https://github.com/silpheel/dotfiles/archive/master.zip","$env:TEMP\dotfiles.zip");(new-object -com shell.application).namespace($env:USERPROFILE).CopyHere((new-object -com shell.application).namespace("$env:TEMP\dotfiles.zip").Items(),16);Rename-Item $env:USERPROFILE\dotfiles-master $env:USERPROFILE\.dotfiles;Set-ExecutionPolicy Unrestricted -Force;. $env:userprofile/.dotfiles/windows/setup/install.ps1
 ```
 
 This will among other things symlink the windows folder to the locations PowerShell and Windows PowerShell, add Environment Variables.

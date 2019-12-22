@@ -20,5 +20,5 @@ Update-Help -Force
 choco upgrade all
 
 ### Atom Packages
-Invoke-Expression ". ~\.dotfiles\windows\setup\packageLists\atom.ps1"
+Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\atom.ps1"
 Command-ManagerLoop -Command "upgrade" -packageList $atomPackageList -manager "apm"

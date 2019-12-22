@@ -1,4 +1,4 @@
-$downloadDir = "~/Downloads"
+$downloadDir = "$env:userprofile/Downloads"
 
 $client = new-object System.Net.WebClient
 

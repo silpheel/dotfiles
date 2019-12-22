@@ -29,7 +29,7 @@ $locations =
 "source/registry",  # registry manipulation functions
 "source/wsl"        # Windows Subsystem for Linux tweaks
 
-Push-Location ~\.dotfiles\windows
+Push-Location $env:userprofile\.dotfiles\windows
 $locations | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
 Pop-Location
 

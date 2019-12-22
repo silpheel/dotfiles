@@ -1,6 +1,6 @@
 $Time = [System.Diagnostics.Stopwatch]::StartNew()
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~.dotfileswindowssourceunction.ps1"}
+Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"}
 
 # Easier Navigation: .., ..., ...., ....., and ~
 ${Function:~} = { Set-Location ~ }

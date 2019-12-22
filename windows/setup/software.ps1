@@ -31,7 +31,7 @@ dotnet tool install --global PowerShell
 ### Chocolatey
 Write-Host "Installing Desktop Utilities..." @colorFeedbackHighlight
 if ((which cinst) -eq $null) {
-    Invoke-Expression ". ~\.dotfiles\windows\setup\packageLists\choco.ps1"
+    Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\choco.ps1"
     Invoke-Expression (new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')
     Refresh-Environment
     choco feature enable -n=allowGlobalConfirmation
@@ -50,7 +50,7 @@ gem pristine --all --env-shebang
 
 ### Node Packages
 if (which npm) {
-    Invoke-Expression ". ~\.dotfiles\windows\setup\packageLists\npm.ps1"
+    Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\npm.ps1"
     npm update npm
     Command-ManagerLoop -Command "install" -packageList $npmPackageList -manager "npm"
 } else {
@@ -58,8 +58,8 @@ if (which npm) {
 }
 
 ### Atom Packages
-Invoke-Expression ". ~\.dotfiles\windows\setup\packageLists\atom.ps1"
+Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\atom.ps1"
 Command-ManagerLoop -Command "install" -packageList $atomPackageList -manager "apm"
 
 ### Manual/Semimanual Installers
-Invoke-Expression ". ~\.dotfiles\windows\setup\packageLists\installers.ps1"
+Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\installers.ps1"

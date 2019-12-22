@@ -74,7 +74,7 @@ function DotfileLoaded
 # In this case we want to load colors first.
 # For all other files, place these 3 lines at the top:
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~\.dotfiles\windows\source\function.ps1"}
+Catch {Invoke-Expression ". $env:userprofile\.dotfiles\windows\source\function.ps1"}
 DotfileLoaded
 
 # Basic commands

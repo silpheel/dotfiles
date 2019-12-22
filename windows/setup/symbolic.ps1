@@ -44,11 +44,11 @@ bash /mnt/c/Users/silph/.dotfiles/windows/setup/bash_setup_chmod
 symlink $repo\alacritty\alacritty_windows.yml $env:appdata\alacritty\alacritty.yml
 
 # Atom
-symlink $base\atom\config.cson ~\.atom\config.cson
-symlink $repo\atom\keymap.cson ~\.atom\keymap.cson
-symlink $repo\atom\snippets.cson ~\.atom\snippets.cson
-symlink $repo\atom\init.coffee ~\.atom\init.coffee
-symlink $repo\atom\styles.less ~\.atom\styles.less
+symlink $base\atom\config.cson $env:userprofile\.atom\config.cson
+symlink $repo\atom\keymap.cson $env:userprofile\.atom\keymap.cson
+symlink $repo\atom\snippets.cson $env:userprofile\.atom\snippets.cson
+symlink $repo\atom\init.coffee $env:userprofile\.atom\init.coffee
+symlink $repo\atom\styles.less $env:userprofile\.atom\styles.less
 
 # ShareX
 $documentsFolder = [Environment]::GetFolderPath("mydocuments")

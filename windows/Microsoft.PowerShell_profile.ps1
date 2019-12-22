@@ -4,7 +4,7 @@ try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
 Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
-$installComplete = Get-Content env:\DOTFILES_INSTALLED
+$installComplete = $env:DOTFILES_INSTALLED
 if ($installComplete -eq "0") {
   Write-Host "Dotfiles installation" @colorFeedback
   Invoke-Expression ". ./software.ps1"

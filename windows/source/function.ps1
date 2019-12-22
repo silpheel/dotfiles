@@ -10,43 +10,43 @@
 
 function extractColorInfo
 {
-	Param(
-		[Parameter(Mandatory=$true)][string] $raw
-	)
-	$colors = [Regex]::Match($raw, $regexPattern).Groups
-	if ($colors.Groups[1]){
-		$foreColor = $colors.Groups[1].ToString()
-	} else {
-		$foreColor = "White"
-	}
-	if ($colors.Groups[2]){
-		$backColor = $colors.Groups[2].ToString()
-	} else {
-		$backColor = "Black"
-	}
-	return @{
-		'ForegroundColor'= $foreColor;
-		'BackgroundColor'= $backColor;
-	}
+    Param(
+    [Parameter(Mandatory=$true)][string] $raw
+    )
+    $colors = [Regex]::Match($raw, $regexPattern).Groups
+    if ($colors.Groups[1]){
+    $foreColor = $colors.Groups[1].ToString()
+    } else {
+    $foreColor = "White"
+    }
+    if ($colors.Groups[2]){
+    $backColor = $colors.Groups[2].ToString()
+    } else {
+    $backColor = "Black"
+    }
+    return @{
+    'ForegroundColor'= $foreColor;
+    'BackgroundColor'= $backColor;
+    }
 }
 
 function getColor
 {
-	Param(
-		[Parameter(Mandatory=$true)][string] $name
-	)
-	$key="DOTFILES_FORMAT_$name"
-	if ([Environment]::GetEnvironmentVariable($key, 'User')) {
-		$regexPattern = "([a-zA-Z]*)[^a-zA-Z]([a-zA-Z]*)"
-		$raw = [System.Environment]::GetEnvironmentVariable($key, 'User')
-		return extractColorInfo $raw
-	} else {
-		Write-Host "Color key $key not found."
-		return @{
-			'ForegroundColor'= "White";
-			'BackgroundColor'= "Black";
-		}
-	}
+    Param(
+    [Parameter(Mandatory=$true)][string] $name
+    )
+    $key="DOTFILES_FORMAT_$name"
+    if ([Environment]::GetEnvironmentVariable($key, 'User')) {
+    $regexPattern = "([a-zA-Z]*)[^a-zA-Z]([a-zA-Z]*)"
+    $raw = [System.Environment]::GetEnvironmentVariable($key, 'User')
+    return extractColorInfo $raw
+    } else {
+    Write-Host "Color key $key not found."
+    return @{
+    'ForegroundColor'= "White";
+    'BackgroundColor'= "Black";
+    }
+    }
 }
 
 $colorRegular = getColor("REGULAR")
@@ -85,8 +85,8 @@ function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select
 function touch($file) { "" | Out-File $file -Encoding ASCII }
 function Shell-ReloadAdmin
 {
-	try {Start-Process alacritty -Verb RunAs -ErrorAction Stop}
-	Catch {Return}
+    try {Start-Process alacritty -Verb RunAs -ErrorAction Stop}
+    Catch {Return}
   exit
 }
 # Common Editing needs
@@ -112,7 +112,7 @@ function System-Update() {
     gem update
     npm install npm -g
     npm update -g
-		choco upgrade all
+    choco upgrade all
 }
 
 # Reload the Shell
@@ -403,46 +403,46 @@ function Unzip-File {
 
 function CheckBox
 {
-	Param(
-		[Parameter(Mandatory=$true)][string] $content,
-		[Parameter(Mandatory=$true)][string] $ForegroundColor,
-		[Parameter(Mandatory=$true)][string] $BackgroundColor
-	)
-	Write-Host "[" -nonewline @colorRegular
-	Write-Host $content -nonewline -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor
-	Write-Host "]" -nonewline @colorRegular
+    Param(
+    [Parameter(Mandatory=$true)][string] $content,
+    [Parameter(Mandatory=$true)][string] $ForegroundColor,
+    [Parameter(Mandatory=$true)][string] $BackgroundColor
+    )
+    Write-Host "[" -nonewline @colorRegular
+    Write-Host $content -nonewline -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor
+    Write-Host "]" -nonewline @colorRegular
 }
 
 function Symlink
 {
-	Param(
-		[Parameter(Mandatory=$true)][string] $source,
-		[Parameter(Mandatory=$true)][string] $dest,
-		[Parameter(Mandatory=$false)][bool] $isFolder = $false
-	)
-	if (Test-Path $dest){
-		if ($isFolder){
-			if ((Get-Item $dest).Attributes.ToString().Contains("ReparsePoint")){
-				CheckBox "✓" @colorSuccess
-			} else {
-				CheckBox "✓" @colorError
-			}
-		}
-		if ((Get-Item $dest).LinkType -ne "HardLink") {
-	    CheckBox "✓" @colorError
-	  } else {
-	    CheckBox "✓" @colorSuccess
-	  }
-		Remove-Item $dest | Out-Null
-	} else {
-		CheckBox "✓" @colorFeedback
-	}
-	if ($isFolder){
-		New-Item -Value $source -ItemType Junction -Path $dest | Out-Null
-	} else {
-		New-Item -Value $source -ItemType HardLink -Path $dest | Out-Null
-	}
-	Write-Host "$dest" @colorRegular
+    Param(
+    [Parameter(Mandatory=$true)][string] $source,
+    [Parameter(Mandatory=$true)][string] $dest,
+    [Parameter(Mandatory=$false)][bool] $isFolder = $false
+    )
+    if (Test-Path $dest){
+    if ($isFolder){
+    if ((Get-Item $dest).Attributes.ToString().Contains("ReparsePoint")){
+    CheckBox "U" @colorSuccess
+    } else {
+    CheckBox "A" @colorError
+    }
+    }
+    if ((Get-Item $dest).LinkType -ne "HardLink") {
+        CheckBox "U" @colorError
+      } else {
+        CheckBox "A" @colorSuccess
+      }
+    Remove-Item $dest | Out-Null
+    } else {
+    CheckBox "R" @colorFeedback
+    }
+    if ($isFolder){
+    New-Item -Value $source -ItemType Junction -Path $dest | Out-Null
+    } else {
+    New-Item -Value $source -ItemType HardLink -Path $dest | Out-Null
+    }
+    Write-Host "$dest" @colorRegular
 }
 
 # revised from https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
@@ -453,34 +453,24 @@ Function Test-CommandExists
  Catch {RETURN $false}
 }
 
-function Command-Manager
-{
-	Param(
-		[Parameter(Mandatory=$true)][string] $packageName,
-    [Parameter(Mandatory=$true)][string] $commandName,
-    [Parameter(Mandatory=$true)][string] $manager
-	)
-	Write-Host "$packageName..." -nonewline @colorRegular
-	Invoke-Expression "$manager $commandName $packageName" | Out-Null
-	if ($?){
-		Write-Host "✓" @colorSuccess -nonewline
-        Write-Host " " @colorRegular
-	} else {
-		Write-Host "❌" @colorFailure -nonewline
-        Write-Host " " @colorRegular
-	}
-}
-
 function Command-ManagerLoop
 {
-	Param(
-		[Parameter(Mandatory=$true)][array] $packageList,
+    Param(
+    [Parameter(Mandatory=$true)][array] $packageList,
         [Parameter(Mandatory=$true)][string] $command,
         [Parameter(Mandatory=$true)][string] $manager
-	)
-	Write-Host "$manager package $command" @colorFeedback -nonewline
-  Write-Host " " @colorRegular
-	$packageList | ForEach-Object -process {
-    Command-Manager -packageName $_ -command $command -manager $manager
-  }
+    )
+    Write-Host "$manager package $command" @colorFeedback -nonewline
+    Write-Host " " @colorRegular
+    $packageList | ForEach-Object -process {
+        Write-Host "$packageName..." -nonewline @colorRegular
+        Invoke-Expression "$manager $command $_" | Out-Null
+        if ($?) {
+            Write-Host "ok" @colorSuccess -nonewline
+            Write-Host " " @colorRegular
+        } else {
+            Write-Host "error" @colorFailure -nonewline
+            Write-Host " " @colorRegular
+        }
+    }
 }

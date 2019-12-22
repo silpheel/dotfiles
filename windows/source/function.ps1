@@ -457,8 +457,8 @@ function Command-Manager
 {
 	Param(
 		[Parameter(Mandatory=$true)][string] $packageName,
-        [Parameter(Mandatory=$true)][string] $commandName,
-        [Parameter(Mandatory=$true)][string] $manager
+    [Parameter(Mandatory=$true)][string] $commandName,
+    [Parameter(Mandatory=$true)][string] $manager
 	)
 	Write-Host "$packageName..." -nonewline @colorRegular
 	Invoke-Expression "$manager $commandName $packageName" | Out-Null
@@ -471,15 +471,16 @@ function Command-Manager
 	}
 }
 
-function Command-ManagerLoop {
+function Command-ManagerLoop
+{
 	Param(
 		[Parameter(Mandatory=$true)][array] $packageList,
         [Parameter(Mandatory=$true)][string] $command,
         [Parameter(Mandatory=$true)][string] $manager
 	)
 	Write-Host "$manager package $command" @colorFeedback -nonewline
-    Write-Host " " @colorRegular
+  Write-Host " " @colorRegular
 	$packageList | ForEach-Object -process {
-        Command-Manager -packageName $_ -command $command -manager $manager
-    }
+    Command-Manager -packageName $_ -command $command -manager $manager
+  }
 }

@@ -10,12 +10,11 @@ Catch {Invoke-Expression ". ~/.dotfiles/source/alias.ps1"}
 Write-Host "Setting up symlinks" @colorFeedback
 # Junction this directory to PowerShell script
 $profileDir = Split-Path -parent $profile
-if ((Get-Item $profileDir).Attributes.ToString().Contains("ReparsePoint"))  # Already a Junction
-{
-	Remove-Item $profileDir
+$commonParentDir = Split-Path -parent $profileDir
+"WindowsPowerShell", "PowerShell" | ForEach-Object -process {
+  Remove-Item $commonParentDir\$_ -Force -Recurse
+  New-Item -Value $env:userprofile\.dotfiles\windows -Path $commonParentDir\$_ -ItemType Junction
 }
-New-Item -Value $env:userprofile\.dotfiles\windows -Path $profileDir\ -ItemType Junction
-Write-Host "$dest" @colorRegular
 
 $repo = "$env:userprofile\.dotfiles\home\.config"
 

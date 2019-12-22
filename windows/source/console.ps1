@@ -33,9 +33,9 @@ Set-PSReadlineKeyHandler -Key Tab -Function Complete
 # Git info in prompt
 if (((Get-Command git -ErrorAction SilentlyContinue) -ne $null) -and ((Get-Module -ListAvailable Posh-Git -ErrorAction SilentlyContinue) -ne $null)) {
   Import-Module Posh-Git
+  $GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
+  $GitPromptSettings.AfterText += "`n"
 }
-$GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
-$GitPromptSettings.AfterText += "`n"
 # Add [A] in front if admin or [R] if regular
 function prompt {
   if (Verify-Elevated) {

@@ -261,7 +261,7 @@ $trash =
   "Microsoft.OneConnect",                   # Mobile Plans
   #"Microsoft.Office.OneNote",              # OneNote
   #"Microsoft.MSPaint",                     # Paint
-  #"Microsoft.People",                      # People
+  "Microsoft.People",                       # People
   "Microsoft.Windows.Photos",               # Photos
   "Microsoft.Print3D",                      # Print3D
   "Microsoft.SkypeApp",                     # Skype

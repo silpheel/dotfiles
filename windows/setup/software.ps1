@@ -26,7 +26,6 @@ Get-PackageProvider NuGet -Force | Out-Null
 Write-Host "Installing PowerShell Modules..." @colorFeedback
 Install-Module Posh-Git -Scope CurrentUser -Force
 Install-Module PSWindowsUpdate -Scope CurrentUser -Force
-dotnet tool install --global PowerShell
 
 ### Chocolatey
 Write-Host "Installing Desktop Utilities..." @colorFeedbackHighlight

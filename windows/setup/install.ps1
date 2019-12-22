@@ -24,10 +24,18 @@ $RegSettings.Keys | ForEach-Object -process {
     Write-Progress -Activity "Environment variables" -Status "$perc% Complete:" -PercentComplete $perc -CurrentOperation $_
     [Environment]::SetEnvironmentVariable($_, $RegSettings[$_], "User")
 }
-Write-Progress -Completed
+Write-Progress -Activity "Environment variables" -Completed
+
+# Symlinks powershell dir
+$profileDir = Split-Path -parent $profile
+$commonParentDir = Split-Path -parent $profileDir
+"WindowsPowerShell", "PowerShell" | ForEach-Object -process {
+  Remove-Item $commonParentDir\$_ -Force
+  New-Item -Value $env:userprofile\.dotfiles\windows -Path $commonParentDir\$_ -ItemType Junction
+}
 
 # try to restart the shell in admin mode. The profile should resume installation
 Invoke-Expression ". ../source/function.ps1"
 try {Start-Process PowerShell -Verb RunAs -ErrorAction Stop}
-Catch {Return}
+Catch {exit}
 echo "Restart the shell in Admin mode to continue."

@@ -20,14 +20,16 @@ ${Function:local} =    { Set-Location ~\AppData\Local }
 ${Function:locallow} = { Set-Location ~\AppData\LocalLow }
 ${Function:roaming} =  { Set-Location ~\AppData\Roaming }
 ${Function:posh} =     { Set-Location (Split-Path -parent $profile)}
-# for some reason atm ls does not work in subfolders of wsl is not in bash
-# Will only work for Ubuntu installation
-$WSLRoot = "$((Get-ChildItem ~\AppData\Local\Packages\CanonicalGroupLimited*)[0].FullName)\LocalState\rootfs"
-${Function:wsl} = {
-  Set-Location $WSLRoot
-}
 # quick close
 ${Function:Get-Out} = { exit }; Set-Alias "x" Get-Out
+
+# Windows Subsystem for Linux
+$RegWindowsCV = 'HKCU:\Software\Microsoft\Windows\CurrentVersion'
+$WSLDistro = (Get-ItemProperty -Path "$RegWindowsCV\Lxss" -Name 'DefaultDistribution').DefaultDistribution
+$WSLRootFS = (Get-ItemProperty -Path "$RegWindowsCV\Lxss\$WSLDistro" -Name 'BasePath').BasePath
+${Function:wsl} = {
+  Set-Location $WSLRootFS
+}
 
 # boostrap and reload
 ${Function:dotfiles} = {

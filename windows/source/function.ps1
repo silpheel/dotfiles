@@ -36,9 +36,9 @@ function getColor
 		[Parameter(Mandatory=$true)][string] $name
 	)
 	$key="DOTFILES_FORMAT_$name"
-	if (Test-Path env:\$key) {
+	if (-not [Environment]::GetEnvironmentVariable($key, 'User')) {
 		$regexPattern = "([a-zA-Z]*)[^a-zA-Z]([a-zA-Z]*)"
-		$raw=Get-Content env:\$key
+		$raw = [System.Environment]::GetEnvironmentVariable($key, 'User')
 		return extractColorInfo $raw
 	} else {
 		Write-Host "Color key $key not found."

@@ -1,9 +1,9 @@
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
+Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
 try {if(Get-Command "Verify-Elevated" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/source/console.ps1"}
+Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/console.ps1"}
 
 # Check to see if we are currently running "as Administrator"
 if (!(Verify-Elevated)) {

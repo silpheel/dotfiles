@@ -1,7 +1,7 @@
 # Profile for the Microsoft.Powershell Shell, only. (Not Visual Studio or other PoSh instances)
 # ===========
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
+Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
 $installComplete = [Environment]::GetEnvironmentVariable("DOTFILES_INSTALLED", "User")

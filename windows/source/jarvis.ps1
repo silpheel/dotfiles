@@ -68,7 +68,7 @@ function Jarvis-GetColors
 
 function Jarvis-Upgrade
 {
-    Invoke-Expression ". ~/.dotfiles/windows/setup/upgrade.ps1"
+    Invoke-Expression ". $env:userprofile/.dotfiles/windows/setup/upgrade.ps1"
 }
 
 function Jarvis-Help

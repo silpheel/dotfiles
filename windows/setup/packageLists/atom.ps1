@@ -1,5 +1,5 @@
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
+Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
 $atomPackageList =

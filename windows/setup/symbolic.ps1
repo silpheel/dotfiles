@@ -1,9 +1,9 @@
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
+Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
 try {if(Get-Command "wsl" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/source/alias.ps1"}
+Catch {Invoke-Expression ". $env:userprofile/.dotfiles/source/alias.ps1"}
 
 ### SCRIPT START
 

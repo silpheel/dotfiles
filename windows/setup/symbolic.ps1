@@ -22,7 +22,7 @@ $repo = "$env:userprofile\.dotfiles\home\.config"
 Symlink $env:userprofile\.dotfiles\windows\Microsoft.PowerShell_profile.ps1 $env:userprofile\.dotfiles\windows\Microsoft.PowerShellISE_profile.ps1
 
 # Windows Subsystem for Linux
-$WSLHome = (Get-ChildItem $WSLRoot\home)[0].FullName
+$WSLHome = (Get-ChildItem $WSLRootFS\home)[0].FullName
 symlink $env:userprofile\.dotfiles\home\.bashrc $WSLHome\.bashrc
 symlink $env:userprofile\.dotfiles\home\.bash_profile $WSLHome\.bash_profile
 # TODO: dynamic link

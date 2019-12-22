@@ -12,7 +12,9 @@ if ($installComplete -eq "0") {
   Invoke-Expression ". ./windows.ps1"
   [Environment]::SetEnvironmentVariable("DOTFILES_INSTALLED", "1", "User")
   # at this point alacritty should be ready to take over
-  Shell-ReloadAdminAdmin
+  # Shell-ReloadAdminAdmin
+  echo "we would exit here"
+  break
 }
 
 # support for unicode if not envabled by default

@@ -10,6 +10,7 @@ Windows part inspired by, and contains code from, Jay Harris's dotfiles for Wind
 ## Installation
 
 PowerShell one-liner to clone the report under the user profile folder:
+**REQUIRES ADMIN PRIVILEGES**
 ```posh
 (New-Object Net.WebClient).DownloadFile("https://github.com/silpheel/dotfiles/archive/master.zip","$env:TEMP\dotfiles.zip");(new-object -com shell.application).namespace($env:USERPROFILE).CopyHere((new-object -com shell.application).namespace("$env:TEMP\dotfiles.zip").Items(),16);Rename-Item $env:USERPROFILE\dotfiles-master $env:USERPROFILE\.dotfiles;Set-ExecutionPolicy Unrestricted -Force;. $env:userprofile/.dotfiles/windows/setup/install.ps1
 ```

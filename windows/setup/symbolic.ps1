@@ -12,8 +12,8 @@ Write-Host "Setting up symlinks" @colorFeedback
 $profileDir = Split-Path -parent $profile
 $commonParentDir = Split-Path -parent $profileDir
 "WindowsPowerShell", "PowerShell" | ForEach-Object -process {
-  Remove-Item $commonParentDir\$_ -Force -Recurse
-  New-Item -Value $env:userprofile\.dotfiles\windows -Path $commonParentDir\$_ -ItemType Junction
+  Remove-Item $commonParentDir\$_ -Force -Recurse | Out-Null
+  New-Item -Value $env:userprofile\.dotfiles\windows -Path $commonParentDir\$_ -ItemType Junction | Out-Null
 }
 
 $repo = "$env:userprofile\.dotfiles\home\.config"

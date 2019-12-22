@@ -30,7 +30,7 @@ Write-Progress -Activity "Environment variables" -Completed
 $profileDir = Split-Path -parent $profile
 $commonParentDir = Split-Path -parent $profileDir
 "WindowsPowerShell", "PowerShell" | ForEach-Object -process {
-  Remove-Item $commonParentDir\$_ -Force
+  Remove-Item $commonParentDir\$_ -Force -Recurse
   New-Item -Value $env:userprofile\.dotfiles\windows -Path $commonParentDir\$_ -ItemType Junction
 }
 

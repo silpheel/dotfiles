@@ -1,5 +1,5 @@
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/functions/common.ps1"}
+Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
 # take ownership of registry key (https://social.technet.microsoft.com/Forums/windowsserver/en-US/e718a560-2908-4b91-ad42-d392e7f8f1ad/take-ownership-of-a-registry-key-and-change-permissions)

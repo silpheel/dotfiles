@@ -509,7 +509,7 @@ Set-PSReadlineOption -Colors @{
 }
 
 try {if(Get-Command "Map-HKCR" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/functions/registry.ps1"}
+Catch {Invoke-Expression ". ~/.dotfiles/windows/source/registry.ps1"}
 Map-HKCR
 
 # Allow pinning (almost) anything to Start (https://www.winhelponline.com/blog/pin-any-file-start-screen-windows-10-tweak/)

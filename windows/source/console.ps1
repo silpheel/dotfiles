@@ -1,5 +1,5 @@
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/functions/common.ps1"}
+Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
 function Verify-Elevated {
@@ -29,3 +29,20 @@ function Convert-ConsoleColor {
 
 # More bash-like tab completion
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
+
+# Git info in prompt
+if (((Get-Command git -ErrorAction SilentlyContinue) -ne $null) -and ((Get-Module -ListAvailable Posh-Git -ErrorAction SilentlyContinue) -ne $null)) {
+  Import-Module Posh-Git
+}
+$GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
+$GitPromptSettings.AfterText += "`n"
+# Add [A] in front if admin or [R] if regular
+function prompt {
+  if (Verify-Elevated) {
+    $prompt = Write-Prompt "A|" -ForegroundColor Red
+  } else {
+    $prompt = Write-Prompt "R|" -ForegroundColor White
+  }
+  $prompt += & $GitPromptScriptBlock
+  if ($prompt) {$prompt} else {" "}
+}

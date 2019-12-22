@@ -1,5 +1,5 @@
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/functions/common.ps1"}
+Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
 # https://devblogs.microsoft.com/commandline/integrate-linux-commands-into-windows-with-powershell-and-the-windows-subsystem-for-linux/

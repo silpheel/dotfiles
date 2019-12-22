@@ -445,47 +445,6 @@ cat()
 }
 
 ##
-# Backup user directory files to GDrive using rclone.
-#
-# Backup very specific things on Dane MacMillan's machines.
-#
-# I do not recommend others run this.
-#
-# @TODO Modify this now that it is a function. This used to be an alias, hence
-# the chaining.
-#
-# Also note that there are implicit EXCLUDES for rclone defined in .bashrc.
-# For example, files with the ".icloud" extension are excluded.
-#
-# @author Dane MacMillan <work@danemacmillan.com>
-# @link https://github.com/danemacmillan/dotfiles
-# @license MIT
-backup()
-{
-	local command_name="${FUNCNAME[0]}"
-
-  export RCLONE_VERBOSE=1
-
-  date
-  echo 'Syncing to iCloud Drive...'
-  rclone move ~/Library/Group\ Containers/2BUA8C4S2C.com.agilebits/Library/Application\ Support/1Password/Backups/ ~/iCloud/Archives/1password/ --transfers 10 --bwlimit 0
-  if [[ -e "~/iCloud/.home/Library/Preferences" ]]; then
-	  rclone sync ~/Library/Preferences/ ~/iCloud/.home/Library/Preferences/ --transfers 10 --bwlimit 0 --copy-links
-  fi
-  rclone sync ~/Pictures/Photo\ Booth\ Library/ ~/Documents/images/photobooth/ --transfers 10 --bwlimit 0 --checksum
-
-  date
-  echo 'Backing up to Google Drive...'
-  rclone sync ~/iCloud/.home/ macmillanator:/.home/ --transfers 5 --max-size 50000M --bwlimit 0 --progress
-  rclone copy ~/iCloud/Archives/ macmillanator:/Archives/ --transfers 1 --max-size 50000M --bwlimit 0 --progress
-  rclone sync ~/Desktop/ macmillanator:/Desktop/ --transfers 5 --max-size 1000M --bwlimit 0 --progress
-  rclone copy ~/Documents/ macmillanator:/Documents/ --transfers 5 --max-size 50000M --bwlimit 0 --progress
-  rclone sync ~/Downloads/ macmillanator:/Downloads/ --transfers 5 --max-size 1000M --bwlimit 0 --progress
-  #rclone sync ~/Pictures/ macmillanator:/Pictures/ --transfers 5 --checkers 20 --checksum --bwlimit 0 --progress
-  date
-}
-
-##
 # Get the inode number of a file.
 #
 # @author Dane MacMillan <work@danemacmillan.com>
@@ -823,4 +782,3 @@ listening()
         echo "Usage: listening [pattern]"
     fi
 }
-

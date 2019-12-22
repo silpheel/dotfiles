@@ -58,24 +58,23 @@ $colorErrorHighlight = getColor("ERROR_HIGHLIGHT")
 $colorSuccess = getColor("SUCCESS")
 $colorSuccessHighlight = getColor("SUCCESS_HIGHLIGHT")
 
-# Feedback of which file is loading. For all other files, place this at the top:
-# try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-# Catch {Invoke-Expression ". ~\.dotfiles\windows\functions\common.ps1"}
-# DotfileLoaded
-#
-# In this case we want to load colors first.
-
+# Prints a message with the current script name
 function DotfileLoaded
 {
     $raw=Get-Content env:\DOTFILES_SHOW_FEEDBACK -ErrorAction SilentlyContinue
     if ($raw -eq '1') {
     	$myCommandDefinition = $MyInvocation.ScriptName.Replace($env:userprofile + "\.dotfiles\windows\", "")
-    	Write-Host "Loading: " -nonewline @colorFeedback
+    	Write-Host "Loaded: " -nonewline @colorFeedback
     	Write-Host $myCommandDefinition -nonewline @colorFeedbackHighlight
-    	Write-Host " " @colorRegular
+    	Write-Host " ${script:time.TotalSeconds}" @colorRegular
     }
 }
 
+# Feedback of which file is loading.
+# In this case we want to load colors first.
+# For all other files, place these 3 lines at the top:
+try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
+Catch {Invoke-Expression ". ~\.dotfiles\windows\source\function.ps1"}
 DotfileLoaded
 
 # Basic commands
@@ -84,7 +83,12 @@ function Append-EnvPathIfExists([String]$path) { if (Test-Path $path) { Append-E
 
 function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object Definition }
 function touch($file) { "" | Out-File $file -Encoding ASCII }
-function adminShell {Start-Process alacritty -Verb RunAs}
+function Shell-ReloadAdmin
+{
+	try {Start-Process alacritty -Verb RunAs -ErrorAction Stop}
+	Catch {Return}
+  exit
+}
 # Common Editing needs
 function Edit-Hosts { Invoke-Expression "sudo $(if($env:EDITOR -ne $null)  {$env:EDITOR } else { 'notepad' }) $env:windir\system32\drivers\etc\hosts" }
 function Edit-Profile { Invoke-Expression "$(if($env:EDITOR -ne $null)  {$env:EDITOR } else { 'notepad' }) $profile" }
@@ -397,6 +401,18 @@ function Unzip-File {
     }
 }
 
+function CheckBox
+{
+	Param(
+		[Parameter(Mandatory=$true)][string] $content,
+		[Parameter(Mandatory=$true)][string] $ForegroundColor,
+		[Parameter(Mandatory=$true)][string] $BackgroundColor
+	)
+	Write-Host "[" -nonewline @colorRegular
+	Write-Host $content -nonewline -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor
+	Write-Host "]" -nonewline @colorRegular
+}
+
 function Symlink
 {
 	Param(
@@ -407,24 +423,24 @@ function Symlink
 	if (Test-Path $dest){
 		if ($isFolder){
 			if ((Get-Item $dest).Attributes.ToString().Contains("ReparsePoint")){
-				Write-Host "[UPDATE] " -nonewline @colorSuccess
+				CheckBox "✓" @colorSuccess
 			} else {
-				Write-Host "[REPLACE] " -nonewline @colorError
+				CheckBox "✓" @colorError
 			}
 		}
 		if ((Get-Item $dest).LinkType -ne "HardLink") {
-	    Write-Host "[REPLACE] " -nonewline @colorError
+	    CheckBox "✓" @colorError
 	  } else {
-	    Write-Host "[UPDATE] " -nonewline @colorSuccess
+	    CheckBox "✓" @colorSuccess
 	  }
 		Remove-Item $dest | Out-Null
 	} else {
-		Write-Host "[ADD] " -nonewline @colorFeedback
+		CheckBox "✓" @colorFeedback
 	}
 	if ($isFolder){
-		New-Item -Value $source -ItemType Junction -Path $dest _ Out-Null
+		New-Item -Value $source -ItemType Junction -Path $dest | Out-Null
 	} else {
-		New-Item -Value $source -ItemType HardLink -Path $dest _ Out-Null
+		New-Item -Value $source -ItemType HardLink -Path $dest | Out-Null
 	}
 	Write-Host "$dest" @colorRegular
 }
@@ -447,10 +463,10 @@ function Command-Manager
 	Write-Host "$packageName..." -nonewline @colorRegular
 	Invoke-Expression "$manager $commandName $packageName" | Out-Null
 	if ($?){
-		Write-Host "Ok" @colorSuccess -nonewline
+		Write-Host "✓" @colorSuccess -nonewline
         Write-Host " " @colorRegular
 	} else {
-		Write-Host "Failed" @colorFailure -nonewline
+		Write-Host "❌" @colorFailure -nonewline
         Write-Host " " @colorRegular
 	}
 }

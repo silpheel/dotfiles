@@ -1,9 +1,10 @@
-# Unblock scripts in the dotfiles folder
-
+# Unblock scripts in the dotfiles folder. This prevents having to authorize
+# every script to run it.
 Get-ChildItem $env:userprofile\.dotfiles\*.ps1 -Recurse | Unblock-File
 
 # REGISTRY KEYS FOR CONFIG
-
+# I wanted to have custom colors for command feedback and to store the values in
+# the environment variables.
 $RegSettings = @{
     'DOTFILES_FORMAT_REGULAR'= 'White/Black';
     'DOTFILES_FORMAT_REGULAR_HIGHLIGHT'= 'Yellow/Black';
@@ -14,8 +15,8 @@ $RegSettings = @{
     'DOTFILES_FORMAT_SUCCESS'= 'Black/Green';
     'DOTFILES_FORMAT_SUCCESS_HIGHLIGHT'= 'White/Green';
     'DOTFILES_SHOW_FEEDBACK' = '1';
+    'DOTFILES_INSTALLED' = '0';
 }
-
 $counter = 0
 $RegSettings.Keys | ForEach-Object -process {
     $perc = [math]::Round($counter * 100/$RegSettings.count)
@@ -23,46 +24,10 @@ $RegSettings.Keys | ForEach-Object -process {
     Write-Progress -Activity "Environment variables" -Status "$perc% Complete:" -PercentComplete $perc -CurrentOperation $_
     [Environment]::SetEnvironmentVariable($_, $RegSettings[$_], "User")
 }
-
 Write-Progress -Completed
 
-$colorRegular = @{
-  'ForegroundColor'= "White";
-  'BackgroundColor'= "Black";
-}
-$colorRegularHighlight = @{
-  'ForegroundColor'= "Yellow";
-  'BackgroundColor'= "Black";
-}
-$colorFeedback = @{
-  'ForegroundColor'= "Black";
-  'BackgroundColor'= "Magenta";
-}
-$colorFeedbackHighlight = @{
-  'ForegroundColor'= "Yellow";
-  'BackgroundColor'= "Magenta";
-}
-$colorError = @{
-  'ForegroundColor'= "Black";
-  'BackgroundColor'= "Red";
-}
-$colorErrorHighlight = @{
-  'ForegroundColor'= "White";
-  'BackgroundColor'= "Red";
-}
-$colorSuccess = @{
-  'ForegroundColor'= "Black";
-  'BackgroundColor'= "Green";
-}
-$colorSuccessHighlight = @{
-  'ForegroundColor'= "White";
-  'BackgroundColor'= "Green";
-}
-
-Invoke-Expression ". ./software.ps1"
-Invoke-Expression ". ./symbolic.ps1"
-Invoke-Expression ". ./windows.ps1"
-
-Write-Host "Initial setup is complete"
-Start-Process alacritty -Verb RunAs
-exit
+# try to restart the shell in admin mode. The profile should resume installation
+Invoke-Expression ". ../source/function.ps1"
+try {Start-Process PowerShell -Verb RunAs -ErrorAction Stop}
+Catch {Return}
+echo "Restart the shell in Admin mode to continue."

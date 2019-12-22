@@ -1,9 +1,9 @@
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". ~/.dotfiles/windows/functions/common.ps1"}
+Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
 $chocoPackageList =
-# system and cli
+## SYSTEM AND CLI
 "curl",
 "nuget.commandline",
 "webpi",
@@ -16,65 +16,54 @@ $chocoPackageList =
 "windows-sdk-10-version-1903-all",
 "seer",
 "vscode",
-
-# fonts
+## FONTS
 "sourcecodepro",
-
-# browsers,
+## BROWSERS
 # "GoogleChrome",
-# "GoogleChrome.Canary",
 "Firefox",
-#"Opera",
-
-# dev tools and frameworks
-"atom",
-"Fiddler",
-"vim",
-"winmerge",
-"notepadplusplus.install",
-"hxd",
-
-# system functionality extenders
-"7zip",
-"autohotkey.portable",
-"Everything",
-"icloud",
-"nircmd",
-"procexp",
-"revo-uninstaller",
-"sharex",
-"switcheroo",
-"switcheroo.install",
-"sysinternals",
-"wiztree",
-"freecommander-xe.install",
-"k-litecodecpackfull",
-
-# consoles
+## DEV TOOLS AND FRAMEWORKS
+"atom",                     # hackable editor and tools
+"Fiddler",                  # web debugging
+"vim",                      # console version
+"winmerge",                 # merge or compare files
+"notepadplusplus.install",  # simplistic editor, replaces notepad
+"hxd",                      # hex editor
+## SYSTEM FUNCTIONALITY
+"7zip",                     # compression
+"autohotkey.portable",      # portable/compiled scripts
+"Everything",               # search anywhere, interacts with Wox
+"icloud",                   # iCloud sync
+"nircmd",                   # advanced command line utils
+"procexp",                  # better task manager
+"revo-uninstaller",         # better uninstaller
+"sharex",                   # easy screen cap
+"switcheroo",               # switch windows
+"sysinternals",             # command line utils
+"wiztree",                  # analyze disk usage, replaces windirstat
+"freecommander-xe.install", # file manager alternative
+"k-litecodecpackfull",      # video codec pack
+## CONSOLES
 "alacritty",
 "Cmder",
 "microsoft-windows-terminal",
-
-# readers
-"calibre",
-"fsviewer",
-"sumatrapdf",
-"mediamonkey",
-
-# gaming
-"epicgameslauncher",
-"goggalaxy",
-"itch",
-"origin",
-"steam",
-"twitch",
-"uplay",
-"nvidia-display-drivers",
-
-# other
-"audacity",
-"Franz",
-"gimp",
-"mkvtoolnix",
-"qbittorrent",
-"vlc"
+## READERS
+"aimp",       # music
+"calibre",    # ebook manager
+"fsviewer",   # images
+"sumatrapdf", # pdf
+"vlc",        # video
+## GAMING CRAZYNESS
+"epicgameslauncher",      # Epic Games
+"goggalaxy",              # CD Projekt Red
+"itch",                   # Indie
+"origin",                 # EA
+"steam",                  # Valve
+"twitch",                 # Amazon
+"uplay",                  # Ubisoft
+"nvidia-display-drivers", # video drivers
+## OTHER
+"audacity",     # audio edit
+"Franz",        # chat
+"gimp",         # image edit
+"mkvtoolnix",   # matroska video
+"qbittorrent",  # bittorrent

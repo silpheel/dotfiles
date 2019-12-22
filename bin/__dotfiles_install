@@ -49,9 +49,9 @@ elif [[ "${OS}" == "osx" ]]; then
     /usr/local/bin/brew install git
 fi
 
-dotfiles_repo="git@github.com:danemacmillan/dotfiles.git"
+dotfiles_repo="git@github.com:silpheel/dotfiles.git"
 if [[ "${1}" == "nossh" ]]; then
-	dotfiles_repo="https://github.com/danemacmillan/dotfiles.git"
+	dotfiles_repo="https://github.com/silpheel/dotfiles.git"
 fi
 
 dotfiles_install_directory=".dotfiles"

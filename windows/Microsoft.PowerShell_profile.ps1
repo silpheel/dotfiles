@@ -4,12 +4,12 @@ try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
 Catch {Invoke-Expression ". ~/.dotfiles/windows/source/function.ps1"}
 DotfileLoaded
 
-$installComplete = $env:DOTFILES_INSTALLED
+$installComplete = [Environment]::GetEnvironmentVariable("DOTFILES_INSTALLED", "User")
 if ($installComplete -eq "0") {
   Write-Host "Dotfiles installation" @colorFeedback
-  Invoke-Expression ". ./software.ps1"
-  Invoke-Expression ". ./symbolic.ps1"
-  Invoke-Expression ". ./windows.ps1"
+  Invoke-Expression ". $env:userprofile/.dotfiles/windows/setup/software.ps1"
+  Invoke-Expression ". $env:userprofile/.dotfiles/windows/setup/symbolic.ps1"
+  Invoke-Expression ". $env:userprofile/.dotfiles/windows/setup/windows.ps1"
   [Environment]::SetEnvironmentVariable("DOTFILES_INSTALLED", "1", "User")
   # at this point alacritty should be ready to take over
   # Shell-ReloadAdminAdmin

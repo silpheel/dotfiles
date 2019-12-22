@@ -35,7 +35,7 @@ $commonParentDir = Split-Path -parent $profileDir
 }
 
 # try to restart the shell in admin mode. The profile should resume installation
-Invoke-Expression ". ../source/function.ps1"
+Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"
 try {Start-Process PowerShell -Verb RunAs -ErrorAction Stop}
 Catch {exit}
 echo "Restart the shell in Admin mode to continue."

@@ -17,8 +17,12 @@ Write-Host "Updating Help..." @colorFeedback
 Update-Help -Force
 
 ### Chocolatey
-choco upgrade all
+if (which choco) {
+    choco upgrade all
+}
 
 ### Atom Packages
-Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\atom.ps1"
-Command-ManagerLoop -Command "upgrade" -packageList $atomPackageList -manager "apm"
+if (which apm) {
+    Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\atom.ps1"
+    Command-ManagerLoop -Command "upgrade" -packageList $atomPackageList -manager "apm"
+}

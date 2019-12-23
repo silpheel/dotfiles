@@ -30,22 +30,35 @@ Install-Module PSWindowsUpdate -Scope CurrentUser -Force
 ### Chocolatey
 Write-Host "Installing Desktop Utilities..." @colorFeedbackHighlight
 if ((which cinst) -eq $null) {
-    Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\choco.ps1"
     Invoke-Expression (new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')
     Refresh-Environment
     choco feature enable -n=allowGlobalConfirmation
+}
+
+if (which cinst) {
+    Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\choco.ps1"
     Command-ManagerLoop -Command "install" -packageList $chocoPackageList -manager "choco"
+    Refresh-Environment
+    $nodeLtsVersion = choco search nodejs-lts --limit-output | ConvertFrom-String -TemplateContent "{Name:package-name}\|{Version:1.11.1}" | Select -ExpandProperty "Version"
 }
 
 ### Node
 Refresh-Environment
 
-$nodeLtsVersion = choco search nodejs-lts --limit-output | ConvertFrom-String -TemplateContent "{Name:package-name}\|{Version:1.11.1}" | Select -ExpandProperty "Version"
-nvm install $nodeLtsVersion
-nvm use $nodeLtsVersion
+if (which nvm) {
+    nvm install $nodeLtsVersion
+    nvm use $nodeLtsVersion
+} else {
+    Write-Host "NVM is not available" @colorError
+}
 
 ### Ruby
-gem pristine --all --env-shebang
+if (which gem) {
+    gem pristine --all --env-shebang
+} else {
+    Write-Host "gem is not available" @colorError
+}
+
 
 ### Node Packages
 if (which npm) {
@@ -57,8 +70,12 @@ if (which npm) {
 }
 
 ### Atom Packages
-Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\atom.ps1"
-Command-ManagerLoop -Command "install" -packageList $atomPackageList -manager "apm"
+if (which apm) {
+    Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\atom.ps1"
+    Command-ManagerLoop -Command "install" -packageList $atomPackageList -manager "apm"
+} else {
+    Write-Host "apm is not available" @colorError
+}
 
 ### Manual/Semimanual Installers
 Invoke-Expression ". $env:userprofile\.dotfiles\windows\setup\packageLists\installers.ps1"

@@ -11,8 +11,8 @@ $installComplete = [Environment]::GetEnvironmentVariable("DOTFILES_INSTALLED", "
 if ($installComplete -eq "0") {
   Write-Host "Dotfiles installation" @colorFeedback
   Invoke-Expression ". $env:userprofile/.dotfiles/windows/setup/software.ps1"
-  Invoke-Expression ". $env:userprofile/.dotfiles/windows/setup/symbolic.ps1"
   Invoke-Expression ". $env:userprofile/.dotfiles/windows/setup/windows.ps1"
+  Invoke-Expression ". $env:userprofile/.dotfiles/windows/setup/symbolic.ps1"
   [Environment]::SetEnvironmentVariable("DOTFILES_INSTALLED", "1", "User")
   # at this point alacritty should be ready to take over
   # Shell-ReloadAdminAdmin

@@ -5,22 +5,27 @@ function ManualDLInstall
     Param(
         [Parameter(Mandatory=$true)][string] $url,
         [Parameter(Mandatory=$true)][string] $filename,
-        [Parameter(Mandatory=$false)][string] $argString = ""
-	)
+        [Parameter(Mandatory=$false)][string] $argString = " ",
+        [Parameter(Mandatory=$false)][switch] $noWait = $false
+    )
     $target = [IO.Path]::Combine($downloadDir, $filename)
     Write-Host $target @colorFeedback
     Write-Host "Downloading " @colorFeedback -nonewline
     (New-Object Net.WebClient).DownloadFile($url, $target);
     Write-Host "ok" @colorSuccess
     Write-Host "Installing " @colorFeedback -nonewline
-    Start-Process -Wait -ArgumentList $argString $target
-    if ($?){
-		Write-Host "ok" @colorSuccess
-        Write-Host " " @colorRegular
-	} else {
-		Write-Host "error" @colorFailure
-        Write-Host " " @colorRegular
-	}
+    if ($noWait) {
+        Start-Process -ArgumentList $argString -Path $target
+    } else {
+        Start-Process -Wait -ArgumentList $argString -Path $target
+        if ($?){
+            Write-Host "ok" @colorSuccess
+            Write-Host " " @colorRegular
+        } else {
+            Write-Host "error" @colorFailure
+            Write-Host " " @colorRegular
+        }
+    }
 }
 
 # PowerShell Core Preview (current stable does not accept arguments)
@@ -29,16 +34,16 @@ $release = $metadata.PreviewReleaseTag -replace '^v'
 $architecture = "x64"
 $packageName = "PowerShell-${release}-win-${architecture}.msi"
 $downloadUrl = "https://github.com/PowerShell/PowerShell/releases/download/v${release}/${packageName}"
-ManualDLInstall $downloadUrl "powershell-core-${release}.msi" "/passive /norestart"
+ManualDLInstall -url $downloadUrl -filename "powershell-core-${release}.msi" -argString "/passive /norestart"
 
 ### Not in choco
 # ManualDLInstall "https://www.battle.net/download/getInstallerForGame?os=win&locale=enUS&version=LIVE&gameProgram=BATTLENET_APP" "battle.net installer.exe"
-ManualDLInstall "https://gamedownloads.rockstargames.com/public/installer/Rockstar-Games-Launcher.exe" "Rockstar Games Launcher installer.exe"
-ManualDLInstall "https://download.info.apple.com/Mac_OS_X/041-0257.20120611.MkI85/AirPortSetup.exe" "Apple AirPortSetup.exe" "/passive /norestart"
+ManualDLInstall -url "https://gamedownloads.rockstargames.com/public/installer/Rockstar-Games-Launcher.exe" -filename "Rockstar Games Launcher installer.exe" -noWait
+ManualDLInstall -url "https://download.info.apple.com/Mac_OS_X/041-0257.20120611.MkI85/AirPortSetup.exe" -filename "Apple AirPortSetup.exe" -argString "/passive /norestart"
 
 ### Not working in choco
 # Karen
 # Ultracopier
 
 ### Latest in Choco is unstable
-ManualDLInstallExe "https://download.kde.org/stable/digikam/6.4.0/digiKam-6.4.0-Win64.exe" "digiKam 6.4.0 installer.exe"
+ManualDLInstall -url "https://download.kde.org/stable/digikam/6.4.0/digiKam-6.4.0-Win64.exe" -filename "digiKam 6.4.0 installer.exe"

@@ -438,9 +438,9 @@ function Symlink
     CheckBox "R" @colorFeedback
     }
     if ($isFolder){
-    New-Item -Value $source -ItemType Junction -Path $dest | Out-Null
+        New-Item -Value $source -ItemType Junction -Path $dest | Out-Null
     } else {
-    New-Item -Value $source -ItemType HardLink -Path $dest | Out-Null
+        New-Item -Value $source -ItemType HardLink -Path $dest | Out-Null
     }
     Write-Host "$dest" @colorRegular
 }
@@ -463,7 +463,7 @@ function Command-ManagerLoop
     Write-Host "$manager package $command" @colorFeedback -nonewline
     Write-Host " " @colorRegular
     $packageList | ForEach-Object -process {
-        Write-Host "$packageName..." -nonewline @colorRegular
+        Write-Host "$_ ..." -nonewline @colorRegular
         Invoke-Expression "$manager $command $_" | Out-Null
         if ($?) {
             Write-Host "ok" @colorSuccess -nonewline

@@ -1,6 +1,7 @@
 $Time = [System.Diagnostics.Stopwatch]::StartNew()
 try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
 Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"}
+DotfileLoaded
 
 # Easier Navigation: .., ..., ...., ....., and ~
 ${Function:~} = { Set-Location ~ }
@@ -23,12 +24,17 @@ ${Function:posh} =     { Set-Location (Split-Path -parent $profile)}
 # quick close
 ${Function:Get-Out} = { exit }; Set-Alias "x" Get-Out
 
+try {if(Get-Command "Test-RegistryValue" -ErrorAction stop){}}
+Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/registry.ps1"}
+
 # Windows Subsystem for Linux
 $RegWindowsCV = 'HKCU:\Software\Microsoft\Windows\CurrentVersion'
-$WSLDistro = (Get-ItemProperty -Path "$RegWindowsCV\Lxss" -Name 'DefaultDistribution').DefaultDistribution
-$WSLRootFS = (Get-ItemProperty -Path "$RegWindowsCV\Lxss\$WSLDistro" -Name 'BasePath').BasePath
-${Function:wsl} = {
-  Set-Location $WSLRootFS
+if (Test-Path "$RegWindowsCV\Lxss" -And Test-RegistryValue "$RegWindowsCV\Lxss" "DefaultDistribution") {
+    $WSLDistro = (Get-ItemProperty -Path "$RegWindowsCV\Lxss" -Name 'DefaultDistribution').DefaultDistribution
+    $WSLRootFS = (Get-ItemProperty -Path "$RegWindowsCV\Lxss\$WSLDistro" -Name 'BasePath').BasePath
+    ${Function:wsl} = {
+      Set-Location $WSLRootFS
+    }
 }
 
 # boostrap and reload
@@ -82,5 +88,3 @@ Set-Alias reload Reload-Powershell
 # http://xkcd.com/530/
 Set-Alias mute Set-SoundMute
 Set-Alias unmute Set-SoundUnmute
-
-DotfileLoaded

@@ -2,10 +2,10 @@
 
 $ComputerName = "ENTROPIA-WIN10"
 
-$privacyTweaks = True
-$developerTweaks = True
+$privacyTweaks = $true
+$developerTweaks = $true
 
-Check to see if we are currently running "as Administrator"
+#Check to see if we are currently running "as Administrator"
 if (!(Verify-Elevated)) {
    $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
    $newProcess.Arguments = $myInvocation.MyCommand.Definition;
@@ -508,52 +508,60 @@ Set-PSReadlineOption -Colors @{
     "Error"     = "#902020"
 }
 
-try {if(Get-Command "Map-HKCR" -ErrorAction stop){}}
-Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/registry.ps1"}
-Map-HKCR
+New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT  -ErrorAction SilentlyContinue
 
 # Allow pinning (almost) anything to Start (https://www.winhelponline.com/blog/pin-any-file-start-screen-windows-10-tweak/)
 Set-Itemproperty -path 'HKCR:\AllFileSystemObjects\shellex\ContextMenuHandlers' -Name ' {470C0EBD-5D73-4d58-9CED-E91E22E23282}' -value 'Pin to Start' -Force
 
 # Add "Open command prompt here" in Windows 10
-TakeRegKeyOwnership("HKCR:\Directory\shell\cmd")
-TakeRegKeyFullControl("HKCR:\Directory\shell\cmd")
-Rename-ItemProperty -Path "HKCR:\Directory\shell\cmd" -Name "HideBasedOnVelocityId" -NewName "ShowBasedOnVelocityId"
+# TakeRegKeyOwnership("HKCR:\Directory\shell\cmd")
+# TakeRegKeyFullControl("HKCR:\Directory\shell\cmd")
+# Rename-ItemProperty -Path "HKCR:\Directory\shell\cmd" -Name "HideBasedOnVelocityId" -NewName "ShowBasedOnVelocityId"
 
 # Subdirectory + normal
-New-Item -path "HKCR:\directory\shell" -Name "Alacritty here"
-New-Item -path "HKCR:\directory\shell\Alacritty here" -Name "Command"
-Set-Itemproperty -path "HKCR:\directory\shell\Alacritty here\Command" -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\alacritty.exe"
+function CreateRegIfNotExists
+{
+    Param(
+        [Parameter(Mandatory=$true)][string] $path,
+        [Parameter(Mandatory=$true)][string] $name
+    )
+    if (!(Test-Path $path)) {New-Item -path $path -Name $name | Out-Null}
+}
+CreateRegIfNotExists -Path "HKCR:\directory\shell"                        -Name "Alacritty here"
+CreateRegIfNotExists -Path "HKCR:\directory\shell\Alacritty here"         -Name "Command"
+Set-Itemproperty     -Path "HKCR:\directory\shell\Alacritty here\Command" -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\alacritty.exe"
 # Subdirectory + Admin
-New-Item -path "HKCR:\directory\shell" -Name "Alacritty here (Admin)"
-New-Item -path "HKCR:\directory\shell\Alacritty here (Admin)" -Name "Command"
-Set-Itemproperty -path "HKCR:\directory\shell\Alacritty here (Admin)\Command" -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\nircmd.exe elevate C:\ProgramData\chocolatey\bin\alacritty.exe"
+CreateRegIfNotExists -Path "HKCR:\directory\shell"                                -Name "Alacritty here (Admin)"
+CreateRegIfNotExists -Path "HKCR:\directory\shell\Alacritty here"                 -Name "Command"
+Set-Itemproperty     -Path "HKCR:\directory\shell\Alacritty here (Admin)\Command" -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\nircmd.exe elevate C:\ProgramData\chocolatey\bin\alacritty.exe"
 # Directory background + normal
-New-Item -path "HKCR:\directory\background\shell" -Name "Alacritty here"
-New-Item -path "HKCR:\directory\background\shell\Alacritty here" -Name "Command"
-Set-Itemproperty -path "HKCR:\directory\background\shell\Alacritty here\Command" -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\alacritty.exe"
+CreateRegIfNotExists -Path "HKCR:\directory\background\shell"                        -Name "Alacritty here"
+CreateRegIfNotExists -Path "HKCR:\directory\background\shell\Alacritty here"         -Name "Command"
+Set-Itemproperty     -Path "HKCR:\directory\background\shell\Alacritty here\Command" -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\alacritty.exe"
 # Directory background + Admin
-New-Item -path "HKCR:\directory\background\shell" -Name "Alacritty here (Admin)"
-New-Item -path "HKCR:\directory\background\shell\Alacritty here (Admin)" -Name "Command"
-Set-Itemproperty -path "HKCR:\directory\background\shell\Alacritty here (Admin)\Command" -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\nircmd.exe elevate C:\ProgramData\chocolatey\bin\alacritty.exe"
+CreateRegIfNotExists -Path "HKCR:\directory\background\shell"                                -Name "Alacritty here (Admin)"
+CreateRegIfNotExists -Path "HKCR:\directory\background\shell\Alacritty here"                 -Name "Command"
+Set-Itemproperty     -Path "HKCR:\directory\background\shell\Alacritty here (Admin)\Command" -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\nircmd.exe elevate C:\ProgramData\chocolatey\bin\alacritty.exe"
 # Desktop + Normal
-New-Item -path 'HKCR:\DesktopBackground\shell' -Name "Alacritty here"
-New-Item -path 'HKCR:\DesktopBackground\shell\Alacritty here' -Name "Command"
+# I do not recall why I use -literalpath here but I recall wasting a sensible amount of time to make this work
+CreateRegIfNotExists -Path "HKCR:\DesktopBackground\shell"                        -Name "Alacritty here"
+CreateRegIfNotExists -Path "HKCR:\DesktopBackground\shell\Alacritty here"         -Name "Command"
 Set-Itemproperty -literalpath 'HKCR:\DesktopBackground\shell\Alacritty here\Command' -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\alacritty.exe"
 # Desktop + Admin
-New-Item -path 'HKCR:\DesktopBackground\shell' -Name "Alacritty here (Admin)"
-New-Item -path 'HKCR:\DesktopBackground\shell\Alacritty here (Admin)' -Name "Command"
+CreateRegIfNotExists -Path "HKCR:\DesktopBackground\shell"                                -Name "Alacritty here (Admin)"
+CreateRegIfNotExists -Path "HKCR:\DesktopBackground\shell\Alacritty here"                 -Name "Command"
 Set-Itemproperty -literalpath 'HKCR:\DesktopBackground\shell\Alacritty here (Admin)\Command' -Name "(default)" -Value "C:\ProgramData\chocolatey\bin\nircmd.exe elevate C:\ProgramData\chocolatey\bin\alacritty.exe"
 
 # Seer settings
-New-Item -path 'HKCU:\Software' -Name "Corey"
-New-Item -path 'HKCU:\Software\Corey' -Name "Seer"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_shift" -Value "false"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_alt" -Value "false"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_ctrl" -Value "false"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "autorun" -Value "true"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "auto_update" -Value "true"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "open_with_default" -Value "true"
+CreateRegIfNotExists -Path "HKCU:\Software"       -Name "Corey"
+CreateRegIfNotExists -Path "HKCU:\Software\Corey" -Name "Seer"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_shift"             -Value "false"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_alt"               -Value "false"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_ctrl"              -Value "false"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "autorun"               -Value "true"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "auto_update"           -Value "true"
+Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "open_with_default"     -Value "true"
 Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "use_trigger_key_close" -Value "true"
 
+Set-ExecutionPolicy Restricted -Force
 Write-Host "Done. Note that some of these changes require a logout/restart to take effect." @colorFeedback

@@ -1,15 +1,41 @@
 "*":
+  "atom-clock":
+    dateFormat: "H:mm:ss"
+    refreshInterval: 1
+    showClockIcon: true
+    showTooltip: true
+  "atom-python-virtualenv":
+    additionalVirtualEnvPaths: "$HOME/projects/system/current"
+  "autocomplete-python":
+    useKite: false
+  "code-stats-atom":
+    apiKey: ""
   core:
     disabledPackages: [
       "markdown-preview"
     ]
     telemetryConsent: "no"
-    uriHandlerRegistration: "always"
+  "docblock-python":
+    default_desc_text: false
+    style: "sphinx"
+    types: {}
+    use_defaults: true
   editor:
+    fontSize: 13
     showIndentGuide: true
     showInvisibles: true
+    softWrap: true
+    tabLength: 4
+    tabType: "soft"
   "exception-reporting":
-    userId: "6d28f1dc-7be8-48cc-addb-3c083ebc6ada"
+    userId: ""
+  "linter-mypy":
+    executablePath: "$PROJECT_PATH/env/bin/python3"
+  "linter-pylama":
+    configFileLoad: "Use pylama config"
+    configFileName: "~/.dotfiles/home/.config/pylama/.pylamarc"
+    ignoreErrorsAndWarnings: "D203,D212,D213,D404,E501,D105"
+    interpreter: "python3.6"
   "linter-ui-default":
     showPanel: true
   minimap:
@@ -30,8 +56,25 @@
       pigmentsDecorationsZIndex: 0
       "split-diff": true
       "split-diffDecorationsZIndex": 0
-  pigments:
-    groupPaletteColors: "by file"
-    sortPaletteColors: "by name"
+  "regex-railroad-diagram":
+    enabled: false
+  "tree-view":
+    hideVcsIgnoredFiles: true
+  "tree-view-git-status":
+    gitFlow:
+      enabled: false
   welcome:
     showOnStartup: false
+  whitespace: {}
+  zentabs:
+    maximumOpenedTabs: 10
+    neverCloseUnsaved: true
+".coffee.source":
+  editor:
+    tabLength: 2
+".powershell.source":
+  editor:
+    showIndentGuide: true
+    showInvisibles: true
+    softWrap: false
+    softWrapAtPreferredLineLength: true

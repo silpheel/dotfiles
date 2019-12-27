@@ -2,17 +2,14 @@
 
 $ComputerName = "ENTROPIA-WIN10"
 
-$privacyTweaks = $true
-$developerTweaks = $true
-
 #Check to see if we are currently running "as Administrator"
 if (!(Verify-Elevated)) {
-   $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
-   $newProcess.Arguments = $myInvocation.MyCommand.Definition;
-   $newProcess.Verb = "runas";
-   [System.Diagnostics.Process]::Start($newProcess);
+  $newProcess = New-Object System.Diagnostics.ProcessStartInfo "PowerShell";
+  $newProcess.Arguments = $myInvocation.MyCommand.Definition;
+  $newProcess.Verb = "runas";
+  [System.Diagnostics.Process]::Start($newProcess);
 
-   exit
+  exit
 }
 
 ###############################################################################
@@ -27,7 +24,12 @@ Rename-Computer -NewName $ComputerName | Out-Null
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
 # Bash on Windows
 Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
+$ubuntuUrl = "https://aka.ms/wsl-ubuntu-1804"
+$Filename = "$env:USERPROFILE\Downloads\$(Split-Path $URL -Leaf).appx"
+Invoke-WebRequest -Uri $ubuntuUrl -OutFile $Filename -UseBasicParsing
+Add-AppxPackage -Path $Filename -WarningAction SilentlyContinue -ErrorAction SilentlyContinue
 
+Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Hyper-V" -NoRestart -WarningAction SilentlyContinue | Out-Null
 ###############################################################################
 ### Privacy                                                                   #
 ###############################################################################
@@ -35,7 +37,7 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsy
 Write-Host "Configuring Privacy..." @colorFeedback
 
 # General: Don't let apps use advertising ID for experiences across apps: Allow: 1, Disallow: 0
-if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo")) {New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Type Folder | Out-Null}
+if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0
 Remove-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Id" -ErrorAction SilentlyContinue
 
@@ -47,8 +49,8 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" "Enab
 
 # General: Disable key logging & transmission to Microsoft: Enable: 1, Disable: 0
 # Disabled when Telemetry is set to Basic
-if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Input")) {New-Item -Path "HKCU:\SOFTWARE\Microsoft\Input" -Type Folder | Out-Null}
-if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Input\TIPC")) {New-Item -Path "HKCU:\SOFTWARE\Microsoft\Input\TIPC" -Type Folder | Out-Null}
+if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Input")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Input" -Type Folder | Out-Null }
+if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Input\TIPC")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Input\TIPC" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Input\TIPC" "Enabled" 0
 
 # General: Opt-out from websites from accessing language list: Opt-in: 0, Opt-out 1
@@ -75,10 +77,10 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAcce
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" "Value" "Deny"
 
 # Speech, Inking, & Typing: Stop "Getting to know me"
-if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization")) {New-Item -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Type Folder | Out-Null}
+if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\InputPersonalization" "RestrictImplicitTextCollection" 1
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\InputPersonalization" "RestrictImplicitInkCollection" 1
-if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore")) {New-Item -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" -Type Folder | Out-Null}
+if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" "HarvestContacts" 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" "AcceptedPrivacyPolicy" 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" "HasAccepted" 0 -ErrorAction SilentlyContinue
@@ -132,8 +134,8 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAcce
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\videosLibrary" "Value" "Deny"
 
 # Feedback: Windows should never ask for my feedback
-if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf")) {New-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf" -Type Folder | Out-Null}
-if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) {New-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Type Folder | Out-Null}
+if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf" -Type Folder | Out-Null }
+if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" "NumberOfSIUFInPeriod" 0
 
 # Feedback: Telemetry: Send Diagnostic and usage data: Basic: 1, Enhanced: 2, Full: 3
@@ -170,9 +172,9 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "Au
 Write-Host "Configuring Explorer, Taskbar, and System Tray..." @colorFeedback
 
 # Ensure necessary registry paths
-if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Type Folder | Out-Null}
-if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState")) {New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Type Folder | Out-Null}
-if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search" -Type Folder | Out-Null}
+if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) { New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Type Folder | Out-Null }
+if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState")) { New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Type Folder | Out-Null }
+if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search")) { New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search" -Type Folder | Out-Null }
 
 # Explorer: Show hidden files by default: Show Files: 1, Hide Files: 2
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 1
@@ -233,63 +235,63 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\SettingSync\Gr
 ###############################################################################
 Write-Host "Configuring Default Windows Applications..." @colorFeedback
 
-function uninstallWinSoftware([string]$name){
+function uninstallWinSoftware ([string]$name) {
   Get-AppxPackage $name -AllUsers | Remove-AppxPackage | Out-Null
-  Get-AppXProvisionedPackage -Online | Where DisplayNam -like $name | Remove-AppxProvisionedPackage -Online | Out-Null
-  write-host "Removed: $name"
+  Get-AppxProvisionedPackage -Online | Where-Object DisplayNam -Like $name | Remove-AppxProvisionedPackage -Online | Out-Null
+  Write-Host "Removed: $name"
 }
 
 $trash =
-  "Microsoft.3DBuilder",                    # 3D Builder
-  # "Microsoft.WindowsAlarms",                # Uninstall Alarms and Clock
-  "*.AutodeskSketchBook",                   # Autodesk Sketchbook
-  "Microsoft.BingFinance",                  # Bing Finance
-  "Microsoft.BingNews",                     # Bing News
-  "Microsoft.BingSports",                   # Bing Sports
-  "Microsoft.BingWeather",                  # Bing Weather
-  "king.com.BubbleWitch3Saga",              # Bubble Witch 3 Saga
-  "Microsoft.WindowsCommunicationsApps",    # Calendar and Mail
-  "king.com.CandyCrushSodaSaga",            # Candy Crush Soda Saga
-  "*.DisneyMagicKingdoms"                   # Disney Magic Kingdoms
-  "DolbyLaboratories.DolbyAccess",          # Dolby
-  "*.Facebook",                             # Facebook
-  "Microsoft.MicrosoftOfficeHub",           # Get Office, and its "Get Office365" notifications
-  "Microsoft.GetStarted",                   # Get Started
-  # "Microsoft.WindowsMaps",                  # Maps
-  "*.MarchofEmpires",                       # March of Empires
-   "Microsoft.Messaging",                   # Messaging
-  "Microsoft.OneConnect",                   # Mobile Plans
-  #"Microsoft.Office.OneNote",              # OneNote
-  #"Microsoft.MSPaint",                     # Paint
-  "Microsoft.People",                       # People
-  "Microsoft.Windows.Photos",               # Photos
-  "Microsoft.Print3D",                      # Print3D
-  "Microsoft.SkypeApp",                     # Skype
-  "*.SlingTV",                              # SlingTV
-  # "Microsoft.MicrosoftSolitaireCollection", # Solitaire
-  "SpotifyAB.SpotifyMusic",                 # Spotify
-  "Microsoft.MicrosoftStickyNotes",         # StickyNotes
-  "Microsoft.Office.Sway",                  # Sway
-  "*.Twitter",                              # Twitter
-  "Microsoft.WindowsSoundRecorder",         # Voice Recorder
-  "Microsoft.WindowsPhone",                 # Windows Phone Companion
-  "Microsoft.XboxApp",                      # XBox
-  "Microsoft.ZuneMusic",                    # Zune Music (Groove)
-  "Microsoft.ZuneVideo"                     # Zune Video
+"Microsoft.3DBuilder",
+# "Microsoft.WindowsAlarms",  # Alarms and Clock
+"*.AutodeskSketchBook",
+"Microsoft.BingFinance",
+"Microsoft.BingNews",
+"Microsoft.BingSports",
+"Microsoft.BingWeather",
+"king.com.BubbleWitch3Saga",
+"Microsoft.WindowsCommunicationsApps",  # Calendar and Mail
+"king.com.CandyCrushSodaSaga",
+"*.DisneyMagicKingdoms",
+"DolbyLaboratories.DolbyAccess",
+"*.Facebook",
+"Microsoft.MicrosoftOfficeHub",  # Get Office, and "Get Office365" notifications
+"Microsoft.GetStarted",
+# "Microsoft.WindowsMaps",
+"*.MarchofEmpires",
+"Microsoft.Messaging",
+"Microsoft.OneConnect",
+#"Microsoft.Office.OneNote",
+#"Microsoft.MSPaint",
+"Microsoft.People",
+"Microsoft.Windows.Photos",
+"Microsoft.Print3D",
+"Microsoft.SkypeApp",
+"*.SlingTV",
+# "Microsoft.MicrosoftSolitaireCollection",
+"SpotifyAB.SpotifyMusic",
+"Microsoft.MicrosoftStickyNotes",
+"Microsoft.Office.Sway",
+"*.Twitter",
+"Microsoft.WindowsSoundRecorder",
+"Microsoft.WindowsPhone",
+"Microsoft.XboxApp",
+"Microsoft.ZuneMusic",
+"Microsoft.ZuneVideo"
 
 Write-Host "Removing Packages:" -foreground "Red"
 
-Foreach ($junk in $trash)
+foreach ($junk in $trash)
 {
-  uninstallWinSoftware($junk);
+  uninstallWinSoftware ($junk);
 }
 
 # Uninstall Windows Media Player
 Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
-write-host "Removed: WindowsMediaPlayer"
+Write-Host "Removed: WindowsMediaPlayer"
 
 # Prevent "Suggested Applications" from returning
-if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\CloudContent")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" -Type Folder | Out-Null}
+if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\CloudContent")) { New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" -Type Folder | Out-Null }
 Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1
 
 ###############################################################################
@@ -307,7 +309,7 @@ Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "Disab
 Write-Host "Configuring Accessibility..." @colorFeedback
 
 # Turn Off Windows Narrator
-if (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe")) {New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe" -Type Folder | Out-Null}
+if (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe")) { New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe" -Type Folder | Out-Null }
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Narrator.exe" "Debugger" "%1"
 
 # Disable "Window Snap" Automatic Window Arrangement
@@ -331,8 +333,8 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\TabletTip\1.7" "EnableAutocorrection"
 Write-Host "Configuring Windows Update..." @colorFeedback
 
 # Ensure Windows Update registry paths
-if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" -Type Folder | Out-Null}
-if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU")) {New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -Type Folder | Out-Null}
+if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate")) { New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate" -Type Folder | Out-Null }
+if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU")) { New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -Type Folder | Out-Null }
 
 # Enable Automatic Updates
 Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" "NoAutoUpdate" 0
@@ -353,8 +355,8 @@ $MU.AddService2("7971f918-a847-4430-9279-4a52d1efe18d",7,"") | Out-Null
 Remove-Variable MU
 
 # Delivery Optimization: Download from 0: Http Only [Disable], 1: Peering on LAN, 2: Peering on AD / Domain, 3: Peering on Internet, 99: No peering, 100: Bypass & use BITS
-if (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization")) {New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" -Type Folder | Out-Null}
-if (!(Test-Path "HKLM:\SOFTWARE\WOW6432Node\Policies\Microsoft\Windows\DeliveryOptimization")) {New-Item -Path "HKLM:\SOFTWARE\WOW6432Node\Policies\Microsoft\Windows\DeliveryOptimization" -Type Folder | Out-Null}
+if (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization")) { New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" -Type Folder | Out-Null }
+if (!(Test-Path "HKLM:\SOFTWARE\WOW6432Node\Policies\Microsoft\Windows\DeliveryOptimization")) { New-Item -Path "HKLM:\SOFTWARE\WOW6432Node\Policies\Microsoft\Windows\DeliveryOptimization" -Type Folder | Out-Null }
 Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" "DODownloadMode" 0
 Set-ItemProperty "HKLM:\SOFTWARE\WOW6432Node\Policies\Microsoft\Windows\DeliveryOptimization" "DODownloadMode" 0
 
@@ -508,10 +510,10 @@ Set-PSReadlineOption -Colors @{
     "Error"     = "#902020"
 }
 
-New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT  -ErrorAction SilentlyContinue
+New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT -ErrorAction SilentlyContinue
 
 # Allow pinning (almost) anything to Start (https://www.winhelponline.com/blog/pin-any-file-start-screen-windows-10-tweak/)
-Set-Itemproperty -path 'HKCR:\AllFileSystemObjects\shellex\ContextMenuHandlers' -Name ' {470C0EBD-5D73-4d58-9CED-E91E22E23282}' -value 'Pin to Start' -Force
+Set-ItemProperty -Path 'HKCR:\AllFileSystemObjects\shellex\ContextMenuHandlers' -Name ' {470C0EBD-5D73-4d58-9CED-E91E22E23282}' -Value 'Pin to Start' -Force
 
 # Add "Open command prompt here" in Windows 10
 # TakeRegKeyOwnership("HKCR:\Directory\shell\cmd")
@@ -521,11 +523,11 @@ Set-Itemproperty -path 'HKCR:\AllFileSystemObjects\shellex\ContextMenuHandlers' 
 # Subdirectory + normal
 function CreateRegIfNotExists
 {
-    Param(
-        [Parameter(Mandatory=$true)][string] $path,
-        [Parameter(Mandatory=$true)][string] $name
-    )
-    if (!(Test-Path $path)) {New-Item -path $path -Name $name | Out-Null}
+  param(
+    [Parameter(Mandatory = $true)] [string]$path,
+    [Parameter(Mandatory = $true)] [string]$name
+  )
+  if (!(Test-Path $path)) { New-Item -Path $path -Name $name | Out-Null }
 }
 CreateRegIfNotExists -Path "HKCR:\directory\shell"                        -Name "Alacritty here"
 CreateRegIfNotExists -Path "HKCR:\directory\shell\Alacritty here"         -Name "Command"
@@ -555,13 +557,13 @@ Set-Itemproperty -literalpath 'HKCR:\DesktopBackground\shell\Alacritty here (Adm
 # Seer settings
 CreateRegIfNotExists -Path "HKCU:\Software"       -Name "Corey"
 CreateRegIfNotExists -Path "HKCU:\Software\Corey" -Name "Seer"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_shift"             -Value "false"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_alt"               -Value "false"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "key_ctrl"              -Value "false"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "autorun"               -Value "true"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "auto_update"           -Value "true"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "open_with_default"     -Value "true"
-Set-Itemproperty -literalpath 'HKCU:\Software\Corey\Seer' -Name "use_trigger_key_close" -Value "true"
+Set-ItemProperty -LiteralPath 'HKCU:\Software\Corey\Seer' -Name "key_shift" -Value "false"
+Set-ItemProperty -LiteralPath 'HKCU:\Software\Corey\Seer' -Name "key_alt" -Value "false"
+Set-ItemProperty -LiteralPath 'HKCU:\Software\Corey\Seer' -Name "key_ctrl" -Value "false"
+Set-ItemProperty -LiteralPath 'HKCU:\Software\Corey\Seer' -Name "autorun" -Value "true"
+Set-ItemProperty -LiteralPath 'HKCU:\Software\Corey\Seer' -Name "auto_update" -Value "true"
+Set-ItemProperty -LiteralPath 'HKCU:\Software\Corey\Seer' -Name "open_with_default" -Value "true"
+Set-ItemProperty -LiteralPath 'HKCU:\Software\Corey\Seer' -Name "use_trigger_key_close" -Value "true"
 
 Set-ExecutionPolicy Restricted -Force
 Write-Host "Done. Note that some of these changes require a logout/restart to take effect." @colorFeedback

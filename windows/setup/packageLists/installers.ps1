@@ -17,7 +17,7 @@ function ManualDLInstall
   if ($noWait) {
     Start-Process -ArgumentList $argString -Path $target
   } else {
-    Start-Process -Wait -ArgumentList $argString -Path $target
+    Start-Process -Wait -ArgumentList $argString -FilePath $target
     if ($?) {
       Write-Host "ok" @colorSuccess
       Write-Host " " @colorRegular

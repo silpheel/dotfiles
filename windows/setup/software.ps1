@@ -37,7 +37,7 @@ if ((which cinst) -eq $null) {
 
 if (which cinst) {
   Invoke-Expression "$env:USERPROFILE\.dotfiles\windows\setup\packageLists\choco.ps1"
-  Command-ManagerLoop -Command "install" -packageList $chocoPackageList -manager "choco"
+  Command-ManagerLoop -Command "install" -packageList $Global:chocoPackageList -manager "choco"
   Refresh-Environment
   $nodeLtsVersion = choco search nodejs-lts --limit-output | ConvertFrom-String -TemplateContent "{Name:package-name}\|{Version:1.11.1}" | Select-Object -ExpandProperty "Version"
 }
@@ -64,7 +64,7 @@ if (which nvm) {
 if (which npm) {
   Invoke-Expression "$env:USERPROFILE\.dotfiles\windows\setup\packageLists\npm.ps1"
   npm update npm
-  Command-ManagerLoop -Command "install" -packageList $npmPackageList -manager "npm"
+  Command-ManagerLoop -Command "install" -packageList $Global:npmPackageList -manager "npm"
 } else {
   Write-Host "NPM is not available" @colorError
 }
@@ -72,7 +72,7 @@ if (which npm) {
 ### Atom Packages
 if (which apm) {
   Invoke-Expression "$env:USERPROFILE\.dotfiles\windows\setup\packageLists\atom.ps1"
-  Command-ManagerLoop -Command "install" -packageList $atomPackageList -manager "apm"
+  Command-ManagerLoop -Command "install" -packageList @($Global:atomPackageList -join " ") -manager "apm"
 } else {
   Write-Host "apm is not available" @colorError
 }

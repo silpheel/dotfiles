@@ -1,0 +1,60 @@
+"highlight-registered-keyword": [
+  {
+    class: "keyword"
+    pattern: "/WhiteCat|BlackCat/g"
+    fileTypes:["txt"]
+  }
+  {
+    class: "comment"
+    pattern: "///.*$/g"
+    fileTypes:["c", "cpp", "js"]
+  }
+  {
+    class: "comment"
+    pattern: "/#.*$/g"
+    fileTypes:["py"]
+  }
+  {
+    class: "blockcomment"
+    pattern: "//\\*[\\S\\s]*?\\*//g"
+    fileTypes:["c", "cpp", "js"]
+  }
+  {
+    class: "blockcomment"
+    pattern: "/'''[\\S\\s]*?'''/g"
+    fileTypes:["py"]
+  }
+  {
+    class: "keyword"
+    pattern: "/\\251|\\xAE/g"
+  }
+  {
+    class: "windowslinebreak"
+    pattern: "/\\cM\\cJ/g"
+    disable: true
+  }
+  {
+    class: "badSpace"
+    pattern: "/\u00A0|\u2000|\u2001|\u2002|\u2003|\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|\u202F|\u205F|\u3000/g"
+  }
+  {
+    class: "badZeroWidthSpace"
+    pattern: "/\u200B|\u200C|\u200D|\uFEFF/g"
+  }
+  {
+    class: "escapeSequence"
+    pattern: "/\\\\./g"
+  }
+  {
+    class: "literal"
+    pattern: "/\".*?\"/g"
+  }
+  {
+    class: "ISBN"
+    pattern: "/(ISBN-13 ?((978)|(979))-\\d{1,9}-\\d{1,9}-\\d{1,9}-\\d)|(ISBN-10 ?\\d{1,9}-\\d{1,9}-\\d{1,9}-\\d)/g"
+  }
+  {
+    class: "surrogatePairs"
+    pattern: "/\u{2000B}|\u{2123D}|\u{2131B}|\u{2146E}|\u{218BD}|\u{20B9F}|\u{216B4}|\u{21E34}|\u{231C4}|\u{235C4}/g"
+  }
+]

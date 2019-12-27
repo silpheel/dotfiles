@@ -1,11 +1,9 @@
-try {if(Get-Command "DotfileLoaded" -ErrorAction stop){}}
-Catch {Invoke-Expression ". $env:userprofile/.dotfiles/windows/source/function.ps1"}
-DotfileLoaded
-
-$atomPackageList =
+$Global:atomPackageList =
 "atom-beautify",
+"atom-clock",
 "atom-django",
 "atom-html-preview",
+"atom-ide-ui",
 "atom-python-virtualenv",
 "atom-unsaved-changes",
 "autoclose-html",
@@ -16,9 +14,15 @@ $atomPackageList =
 "editorconfig",
 "emmet",
 "hey-pane",
+"highlight-registered-keyword",
 "Hydrogen",
+"ide-powershell",
 "intentions",
+"language-lua",
+"language-powershell",
 "linter",
+"linter-lua",
+"linter-mypy",
 "linter-pylama",
 "linter-ui-default",
 "markdown-preview-plus",
@@ -40,5 +44,9 @@ $atomPackageList =
 "split-diff",
 "tablr",
 "terminal-plus",
+"tree-view-autoresize",
+"tree-view-auto-collapse",
+"tree-view-auto-reveal",
+"tree-view-git-status",
 "todo-show",
 "zentabs"

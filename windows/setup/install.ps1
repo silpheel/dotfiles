@@ -16,6 +16,7 @@ $RegSettings = @{
   'DOTFILES_FORMAT_SUCCESS_HIGHLIGHT' = 'White/Green';
   'DOTFILES_SHOW_FEEDBACK' = '1';
   'DOTFILES_INSTALLED' = '0';
+  'VIRTUAL_ENV_DISABLE_PROMPT' = "1";
 }
 $counter = 0
 $RegSettings.Keys | ForEach-Object -Process {

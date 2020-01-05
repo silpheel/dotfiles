@@ -26,18 +26,21 @@ $Global:chocoPackageList =
 "winmerge",
 "notepadplusplus.install",
 "hxd",
+"heroku-cli",
+# "postgresql12", # password required, need to do it manually
 
 ## SYSTEM FUNCTIONALITY
 "7zip",
 "autohotkey.portable",
 "Everything",
-"icloud",
+"icloud",  # make sure WindowsMediaPlayer optionl windows feature is enabled
 "nircmd",
 "procexp",
 "revo-uninstaller",
 "sharex",
 "switcheroo",
 "sysinternals",
+"spacesniffer",
 "wiztree",
 "freecommander-xe.install",
 "k-litecodecpackfull",
@@ -57,7 +60,7 @@ $Global:chocoPackageList =
 ## GAMING CRAZYNESS
 "epicgameslauncher",
 "goggalaxy",
-"itch",
+# "itch",
 "origin",
 "steam",
 "twitch",

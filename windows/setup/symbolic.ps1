@@ -68,6 +68,13 @@ Symlink $repo\atom\styles.less $env:USERPROFILE\.atom\styles.less
 CreateDirIfNotExists $env:appdata everything
 Symlink $repo\everything\everything.ini $env:appdata\everything\everything.ini
 
+# FreeCommander
+CreateDirIfNotExists $env:localappdata FreeCommanderXE
+CreateDirIfNotExists $env:localappdata\FreeCommanderXE Settings
+Symlink $repo\FreeCommander\FreeCommander.ini $env:appdata\FreeCommander\Settings\FreeCommander.ini
+Symlink $repo\FreeCommander\FreeCommander.views.ini $env:appdata\FreeCommander\Settings\FreeCommander.views.ini
+Symlink $repo\FreeCommander\FreeCommander.wcx.ini $env:appdata\FreeCommander\Settings\FreeCommander.wcx.ini
+
 # Karen's Replicator
 CreateDirIfNotExists $env:localappdata "Karen's Power Tools"
 CreateDirIfNotExists "$env:localappdata\Karen's Power Tools" Replicator

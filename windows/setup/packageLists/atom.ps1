@@ -11,7 +11,6 @@ $Global:atomPackageList =
 "busy-signal",
 "docblock-python",
 "docblockr",
-"editorconfig",
 "emmet",
 "hey-pane",
 "highlight-registered-keyword",

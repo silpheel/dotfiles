@@ -476,7 +476,7 @@ function Command-ManagerLoop
   Write-Host " " @colorRegular
   $packageList | ForEach-Object -Process {
     Write-Host "$_ ..." -NoNewline @colorRegular
-    Invoke-Expression "$manager $command $_" | Out-Null
+    Invoke-Expression "$manager $command $_" -WarningAction SilentlyContinue -ErrorAction SilentlyContinue | Out-Null
     if ($?) {
       Write-Host "ok" @colorSuccess -NoNewline
       Write-Host " " @colorRegular

@@ -27,6 +27,7 @@ Write-Host "Installing PowerShell Modules..." @colorFeedback
 Install-Module Posh-Git -Scope CurrentUser -Force
 Install-Module oh-my-posh -Scope CurrentUser -Force
 Install-Module PSWindowsUpdate -Scope CurrentUser -Force
+Install-Module Get-ChildItemColor -AllowClobber
 
 ### Chocolatey
 Write-Host "Installing Desktop Utilities..." @colorFeedbackHighlight
@@ -73,7 +74,8 @@ if (which npm) {
 ### Atom Packages
 if (which apm) {
   Invoke-Expression "$env:USERPROFILE\.dotfiles\windows\setup\packageLists\atom.ps1"
-  Command-ManagerLoop -Command "install" -packageList @($Global:atomPackageList -join " ") -manager "apm"
+  $chainedNames = @($Global:atomPackageList -join ' ')
+  Invoke-Expression "apm install $chainedNames"
 } else {
   Write-Host "apm is not available" @colorError
 }

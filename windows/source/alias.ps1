@@ -60,7 +60,7 @@ if ((Test-Path "$RegWindowsCV\Lxss") -and (Test-RegistryValue "$RegWindowsCV\Lxs
 ${Function:dotfiles} = {
   Set-Location ~/.dotfiles
   . .\bootstrap.ps1
-  . $profile
+  .$profile
 }
 
 # Missing Bash aliases
@@ -74,7 +74,9 @@ if (Get-Command wget.exe -ErrorAction SilentlyContinue | Test-Path) {
 
 $LS_DEFAULTS = "-lAhviNp"
 $LS_IGNORES = "--ignore=.DS_Store --ignore='Icon'$'\r' --ignore=.CFUserTextEncoding --ignore=.localized --ignore=.Trash --ignore=.Trashes --ignore=.Spotlight-V100 --ignore=.fseventsd"
-${Function:ll} = { ls $LS_DEFAULTS $LS_IGNORES }
+Set-Alias l Get-ChildItemColorFormatWide -Option AllScope
+Set-Alias ll Get-ChildItemColor -Option AllScope
+${Function:lsl} = { ls $LS_DEFAULTS $LS_IGNORES }
 ${Function:lll} = { ls $LS_DEFAULTS $LS_IGNORES | Out-Host -Paging }
 
 # curl: Use `curl.exe` if available

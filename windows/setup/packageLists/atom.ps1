@@ -45,7 +45,7 @@ $Global:atomPackageList =
 "terminal-plus",
 "tree-view-autoresize",
 "tree-view-auto-collapse",
-"tree-view-auto-reveal",
+"johnschult/tree-view-auto-reveal",
 "tree-view-git-status",
 "todo-show",
 "zentabs"

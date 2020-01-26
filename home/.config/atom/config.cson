@@ -1,0 +1,80 @@
+"*":
+  "atom-clock":
+    dateFormat: "H:mm:ss"
+    refreshInterval: 1
+    showClockIcon: true
+    showTooltip: true
+  "atom-python-virtualenv":
+    additionalVirtualEnvPaths: "$HOME/projects/system/current"
+  "autocomplete-python":
+    useKite: false
+  "code-stats-atom":
+    apiKey: ""
+  core:
+    disabledPackages: [
+      "markdown-preview"
+    ]
+    telemetryConsent: "no"
+  "docblock-python":
+    default_desc_text: false
+    style: "sphinx"
+    types: {}
+    use_defaults: true
+  editor:
+    fontSize: 13
+    showIndentGuide: true
+    showInvisibles: true
+    softWrap: true
+    tabLength: 4
+    tabType: "soft"
+  "exception-reporting":
+    userId: ""
+  "linter-mypy":
+    executablePath: "$PROJECT_PATH/env/bin/python3"
+  "linter-pylama":
+    configFileLoad: "Use pylama config"
+    configFileName: "~/.dotfiles/home/.config/pylama/.pylamarc"
+    ignoreErrorsAndWarnings: "D203,D212,D213,D404,E501,D105"
+    interpreter: "python3.6"
+  "linter-ui-default":
+    showPanel: true
+  minimap:
+    plugins:
+      bookmarks: true
+      bookmarksDecorationsZIndex: 0
+      cursorline: true
+      cursorlineDecorationsZIndex: 0
+      "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "lens-mode": true
+      "lens-modeDecorationsZIndex": 0
+      linter: true
+      linterDecorationsZIndex: 0
+      pigments: true
+      pigmentsDecorationsZIndex: 0
+      "split-diff": true
+      "split-diffDecorationsZIndex": 0
+  "regex-railroad-diagram":
+    enabled: false
+  "tree-view":
+    hideVcsIgnoredFiles: true
+  "tree-view-git-status":
+    gitFlow:
+      enabled: false
+  welcome:
+    showOnStartup: false
+  whitespace: {}
+  zentabs:
+    maximumOpenedTabs: 10
+    neverCloseUnsaved: true
+".coffee.source":
+  editor:
+    tabLength: 2
+".powershell.source":
+  editor:
+    showIndentGuide: true
+    showInvisibles: true
+    softWrap: false
+    softWrapAtPreferredLineLength: true

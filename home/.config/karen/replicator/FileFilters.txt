@@ -1,0 +1,6 @@
+*.bmp;*.gif;*.jpg;*.dib;*.ico;*.png	Common Image files
+*.wav;*.mid;*.rmi	Common Sound files
+*.exe;*.dll;*.ocx;*.com	Common Executable files
+*.doc;*.txt;*.pdf	Common Document files
+*.html;*.htm;*.shmtl	Common HTML/Web files
+*.tmp;*.bak	Temporary Files

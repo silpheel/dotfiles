@@ -57,3 +57,11 @@ home/.config/rclone/rclone.conf
 .gitconfig.local
 .rclone.conf
 linus.yaml
+
+# Windows portion
+windows/Help
+windows/Modules
+*.bak
+windows/experiments
+windows/Microsoft.PowerShellISE_profile.ps1
+windows/scripts

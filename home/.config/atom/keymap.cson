@@ -48,3 +48,9 @@
 'atom-text-editor':
   'ctrl-m': 'bracket-matcher:go-to-matching-bracket'
   'ctrl-alt-.': 'bracket-matcher:close-tag'
+'atom-workspace atom-text-editor:not([mini])':
+  'ctrl-alt-cmd-d': 'docblock-python:generate_docblock'
+  'ctrl-f2': 'unset!'
+  'ctrl-alt-cmd-r': 'window:reload'
+'atom-text-editor.vim-mode-plus.visual-mode.blockwise':
+  'G': 'DONT_MOVE_TO_LAST_LINE'

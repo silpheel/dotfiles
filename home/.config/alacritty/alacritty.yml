@@ -305,10 +305,11 @@ live_config_reload: true
 #   - (macOS) /bin/bash --login
 #   - (Linux) user login shell
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
-#  args:
-#    - --login
+shell:
+  program: /bin/zsh
+  args:
+    -  --login
+
 
 # Startup directory
 #
@@ -653,4 +654,3 @@ key_bindings:
   # Restore tmux keybinding for swapping windows: https://github.com/jwilm/alacritty/issues/1385
   - { key: Left,     mods: Control|Shift,   chars: "\x1b[1;6D"           }
   - { key: Right,    mods: Control|Shift,   chars: "\x1b[1;6C"           }
-

@@ -1,0 +1,13 @@
+[pylama]
+linter=pylint
+linters=pylint,pycodestyle,pydocstyle
+ignore=D105
+
+[pylama:pylint]
+max_line_length=80
+multi_line_output= 3
+ignore=D105
+
+[pylama]
+max_line_length= 80
+multi_line_output= 3

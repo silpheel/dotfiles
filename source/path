@@ -74,10 +74,18 @@ fi
 
 # Source google-cloud-sdk gcloud utilities
 # https://cloud.google.com/sdk/docs/quickstarts
-if [[ -e "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc" ]]; then
-	source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
-elif [[ -e "${HOME}/google-cloud-sdk/path.bash.inc" ]]; then
- source "${HOME}/google-cloud-sdk/path.bash.inc"
+if [ -n "$ZSH_VERSION" ]; then
+    if [[ -e "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]]; then
+        source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+    elif [[ -e "${HOME}/google-cloud-sdk/path.zsh.inc" ]]; then
+    		source "${HOME}/google-cloud-sdk/path.zsh.inc"
+    fi
+elif [ -n "$BASH_VERSION" ]; then
+    if [[ -e "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc" ]]; then
+        source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
+    elif [[ -e "${HOME}/google-cloud-sdk/path.bash.inc" ]]; then
+    		source "${HOME}/google-cloud-sdk/path.bash.inc"
+    fi
 fi
 
 ##

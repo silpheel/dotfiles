@@ -21,6 +21,7 @@ function Write-Theme
 	$user = $sl.CurrentUser
 	$computer = [System.Environment]::MachineName
 	$path = (Get-FullPath -dir $pwd)
+  $goToNewLine = $true
 
 	$script:rightPos = -1
 
@@ -32,6 +33,9 @@ function Write-Theme
 
 	# LEFT SIDE
 	$script:leftBg = $sl.Colors.DriveBackgroundColor
+  if ($goToNewLine) {
+    Write-Prompt -Object $sl.PromptSymbols.Q2Round -ForegroundColor "WHITE" -BackgroundColor "BLACK"
+  }
 	Push-LeftLabel "$path$space" -ForegroundColor $sl.Colors.DriveForegroundColor
 	$status = Get-VCSStatus
 	if ($status) {
@@ -47,10 +51,15 @@ function Write-Theme
 	$position = $host.UI.RawUI.CursorPosition
 
 	# RIGHT SIDE
-	$script:rightBg = "WHITE"
+	$script:rightBg = $sl.Colors.ClockBackgroundColor
+  # if ($goToNewLine) {
+  #   Set-RightLabel -Object "" -BackgroundColor $sl.Colors.BorderBackgroundColor
+  #   Push-RightLabel -Object $sl.PromptSymbols.Q1Round -ForegroundColor $sl.Colors.BorderForegroundColor
+  #   Set-RightLabel -Object "" -BackgroundColor $sl.Colors.ClockBackgroundColor
+  # }
 	# Push-RightLabel -Object "$space$date" -ForegroundColor $sl.Colors.PromptForegroundColor -BackgroundColor $sl.Colors.PromptBackgroundColor
 	# Push-RightLabel -Object "$bkSep" -ForegroundColor $sl.Colors.PromptForegroundColor -BackgroundColor $sl.Colors.PromptBackgroundColor
-	Push-RightLabel -Object "$space$timeStamp" -ForegroundColor $sl.Colors.SessionInfoForegroundColor
+	Push-RightLabel -Object "$space$timeStamp" -ForegroundColor $sl.Colors.ClockForegroundColor
 	Set-RightLabel -Object "$bk" -BackgroundColor $sl.Colors.SessionInfoBackgroundColor
 
 	if (Test-NotDefaultUser($user)) {$text = "$space$user@$computer"} else { $text = "$space"}
@@ -65,22 +74,31 @@ function Write-Theme
 
 	# PROMPT
 	$host.UI.RawUI.CursorPosition = $position
-	$goToNewLine = $false
 	if ($goToNewLine) {
-		Set-LeftLabel -Object $fw -BackgroundColor $sl.Colors.PromptBackgroundColor
+    Set-LeftLabel -Object $fw -BackgroundColor $sl.Colors.PromptBackgroundColor
 		Set-Newline
-		$script:leftBg = $sl.Colors.SessionInfoBackgroundColor
+    $script:rightPos = -1
+    Write-Prompt -Object $sl.PromptSymbols.Q3Round -ForegroundColor $sl.Colors.BorderForegroundColor -BackgroundColor $sl.Colors.BorderBackgroundColor
+		# $script:leftBg = $sl.Colors.SessionInfoBackgroundColor
+    # $position = $host.UI.RawUI.CursorPosition
+    # Set-RightLabel -Object "" -BackgroundColor $sl.Colors.BorderBackgroundColor
+    # Push-RightLabel -Object $Q4Round -ForegroundColor $sl.Colors.BorderForegroundColor
+    # Set-RightLabel -Object "" -BackgroundColor $sl.Colors.ClockBackgroundColor
+    # Write-Prompt -Object $sl.PromptSymbols.Q4Round -ForegroundColor $sl.Colors.BorderForegroundColor -BackgroundColor $sl.Colors.BorderBackgroundColor
+    # $host.UI.RawUI.CursorPosition = $position
 	} else {
-		Set-LeftLabel -Object $fw -BackgroundColor $sl.Colors.SessionInfoBackgroundColor
+		# Set-LeftLabel -Object $fw -BackgroundColor $sl.Colors.SessionInfoBackgroundColor
 	}
-
+  Push-LeftLabel -Object "{" -ForegroundColor $sl.Colors.BorderForegroundColor
 	If ($lastCommandFailed) {
 		Push-LeftLabel -Object "$($sl.PromptSymbols.FailedCommandSymbol)$space" -ForegroundColor $sl.Colors.CommandFailedIconForegroundColor
-	}
-	If (Test-Administrator) {$text = $sl.PromptSymbols.ElevatedSymbol} else {$text = "R"}
+	} else {
+    Push-LeftLabel -Object "$($sl.PromptSymbols.SuccessCommandSymbol)$space" -ForegroundColor $sl.Colors.CommandSuccessIconForegroundColor
+  }
+	If (Test-Administrator) {$text = $sl.PromptSymbols.ElevatedSymbol} else {$text = $sl.PromptSymbols.RegularSymbol}
 	Push-LeftLabel -Object "$text" -ForegroundColor $sl.Colors.AdminIconForegroundColor
 	Push-LeftLabel -Object "$space$($sl.PromptSymbols.StartSymbol)$space" -ForegroundColor $sl.Colors.PromptForegroundColor
-	Set-LeftLabel -Object $fw -BackgroundColor $sl.Colors.PromptBackgroundColor
+  # Set-LeftLabel -Object $fw -BackgroundColor $sl.Colors.PromptBackgroundColor
 	$prompt = ""
 	$global:Error.Clear()
 	$prompt
@@ -108,8 +126,9 @@ $sl.GitSymbols = @{
   }
 }
 $sl.PromptSymbols = @{
-	ElevatedSymbol                 = [char]0x21D1  # ⇑
+	ElevatedSymbol                 = "A"  # [char]0x21D1  # ⇑
 	FailedCommandSymbol            = [char]0x00D7  # × (multiplication)
+  SuccessCommandSymbol           = [char]0x2713  # ✓
 	HomeSymbol                     = '~'
 	PathSeparator                  = [System.IO.Path]::DirectorySeparatorChar
 	PromptIndicator                = [char]0x25b6  # ▶
@@ -118,13 +137,22 @@ $sl.PromptSymbols = @{
 	SegmentForwardSymbol           = [char]0xE0B0  # 
 	SegmentSeparatorBackwardSymbol = [char]0xE0B3  # 
 	SegmentSeparatorForwardSymbol  = [char]0xE0B1  # 
-  StartSymbol                    = ' '
+  StartSymbol                    = '}'
   TruncatedFolderSymbol          = '..'
   VirtualEnvSymbol               = [char]0x221A  # √
+  Q1Round                        = [char]0x256E  # ╮
+  Q2Round                        = [char]0x256D  # ╭
+  Q3Round                        = [char]0x2570  # ╰
+  Q4Round                        = [char]0x256F  # ╯
 }
 $sl.Colors = @{
 	AdminIconForegroundColor                = [ConsoleColor]::DarkYellow
-	CommandFailedIconForegroundColor        = [ConsoleColor]::DarkRed
+  BorderBackgroundColor                   = [ConsoleColor]::Black
+  BorderForegroundColor                   = [ConsoleColor]::White
+  ClockBackgroundColor                    = [ConsoleColor]::White
+  ClockForegroundColor                    = [ConsoleColor]::Black
+  CommandFailedIconForegroundColor        = [ConsoleColor]::DarkRed
+  CommandSuccessIconForegroundColor       = [ConsoleColor]::DarkGreen
 	DriveForegroundColor                    = [ConsoleColor]::Black
 	DriveBackgroundColor                    = [ConsoleColor]::DarkBlue
   GitDefaultColor                         = [ConsoleColor]::DarkGreen
@@ -137,8 +165,8 @@ $sl.Colors = @{
   PromptForegroundColor                   = [ConsoleColor]::White
   PromptHighlightColor                    = [ConsoleColor]::Magenta
   PromptSymbolColor                       = [ConsoleColor]::Black
-  SessionInfoBackgroundColor              = [ConsoleColor]::Magenta
-  SessionInfoForegroundColor              = [ConsoleColor]::Black
+  SessionInfoBackgroundColor              = [ConsoleColor]::DarkGray
+  SessionInfoForegroundColor              = [ConsoleColor]::White
 	VirtualEnvBackgroundColor               = [ConsoleColor]::Red
 	VirtualEnvForegroundColor               = [ConsoleColor]::Black
   WithBackgroundColor                     = [ConsoleColor]::DarkRed

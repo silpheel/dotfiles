@@ -30,3 +30,21 @@
 # If you are unfamiliar with CSON, you can read more about it in the
 # Atom Flight Manual:
 # http://flight-manual.atom.io/using-atom/sections/basic-customization/#configuring-with-cson
+'atom-text-editor:not([mini])':
+  'ctrl-e': 'unset!'
+  'ctrl-e ctrl-e': 'emmet:expand-abbreviation'
+  'ctrl-{': 'emmet:balance-outward'
+  'ctrl-}': 'emmet:balance-inward'
+  'ctrl-e ctrl-right': 'emmet:next-edit-point'
+  'ctrl-e ctrl-left': 'emmet:prev-edit-point'
+  'ctrl-e delete': 'emmet:remove-tag'
+  'ctrl-e insert': 'emmet:split-join-tag'  # e.g. <input /> to <input></input>. USE WITH CAUTION
+  'ctrl-e ctrl-=': 'emmet:evaluate-math-expression'
+  'ctrl->': 'emmet:select-next-item'
+  'ctrl-<': 'emmet:select-prev-item'
+  'ctrl-e ctrl-u': 'emmet:update-image-size'  # trial: update height and width of img
+  'ctrl-e ctrl-w': 'emmet:wrap-with-abbreviation'  # wrap closest element in new tag
+  'ctrl-e ctrl-r': 'emmet:update-tag'  # change selected tag
+'atom-text-editor':
+  'ctrl-m': 'bracket-matcher:go-to-matching-bracket'
+  'ctrl-alt-.': 'bracket-matcher:close-tag'

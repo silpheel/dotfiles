@@ -172,8 +172,8 @@ fi
 source "${DOTFILES_PATH}/bin/dpm" --install
 
 ##
-# Use local, most recent version of Bash, if available.
-export PREFERRED_SHELL="/usr/local/bin/bash"
+# Set shell to Zsh.
+export PREFERRED_SHELL="/usr/zsh"
 if [[ "${SHELL}" != "${PREFERRED_SHELL}" ]] \
 	&& [[ -e "${PREFERRED_SHELL}" ]] \
 ; then

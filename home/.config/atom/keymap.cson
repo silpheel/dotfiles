@@ -45,9 +45,14 @@
   'ctrl-e ctrl-u': 'emmet:update-image-size'  # trial: update height and width of img
   'ctrl-e ctrl-w': 'emmet:wrap-with-abbreviation'  # wrap closest element in new tag
   'ctrl-e ctrl-r': 'emmet:update-tag'  # change selected tag
+  'ctrl-cmd-up': 'emmet:increment-number-by-1'
+  'ctrl-cmd-down': 'emmet:decrement-number-by-1'
 'atom-text-editor':
   'ctrl-m': 'bracket-matcher:go-to-matching-bracket'
   'ctrl-alt-.': 'bracket-matcher:close-tag'
+  'ctrl-alt-cmd-e': 'epoch-converter:date-string-replace'
+  'ctrl-alt-cmd-u': 'epoch-converter:UTC-replace'
+  'ctrl-alt-cmd-i': 'epoch-converter:ISO-replace'
 'atom-workspace atom-text-editor:not([mini])':
   'ctrl-alt-cmd-d': 'docblock-python:generate_docblock'
   'ctrl-f2': 'unset!'

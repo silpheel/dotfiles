@@ -12,7 +12,11 @@
     apiKey: ""
   core:
     disabledPackages: [
-      "markdown-preview"
+      "linter-pylint"
+      "linter-pylama"
+      "markdown-preview-plus"
+      "zentabs"
+      "epoch-times"
     ]
     telemetryConsent: "no"
   "docblock-python":
@@ -22,21 +26,24 @@
     use_defaults: true
   editor:
     fontSize: 13
+    maxScreenLineLength: 1500
     showIndentGuide: true
     showInvisibles: true
-    softWrap: true
     tabLength: 4
     tabType: "soft"
+  "epoch-times": {}
   "exception-reporting":
     userId: ""
   "linter-mypy":
     executablePath: "$PROJECT_PATH/env/bin/python3"
+    lintTrigger: "LintAsYouType"
   "linter-pylama":
     configFileLoad: "Use pylama config"
     configFileName: "~/.dotfiles/home/.config/pylama/.pylamarc"
     ignoreErrorsAndWarnings: "D203,D212,D213,D404,E501,D105"
     interpreter: "python3.6"
   "linter-ui-default":
+    panelHeight: 208
     showPanel: true
   minimap:
     plugins:

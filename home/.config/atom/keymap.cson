@@ -53,6 +53,8 @@
   'ctrl-alt-cmd-e': 'epoch-converter:date-string-replace'
   'ctrl-alt-cmd-u': 'epoch-converter:UTC-replace'
   'ctrl-alt-cmd-i': 'epoch-converter:ISO-replace'
+  'ctrl-shift-:': 'emmet:remove-tag'
+  'ctrl-shift-j': 'emmet:matching-pair'
 'atom-workspace atom-text-editor:not([mini])':
   'ctrl-alt-cmd-d': 'docblock-python:generate_docblock'
   'ctrl-f2': 'unset!'

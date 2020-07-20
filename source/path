@@ -72,6 +72,10 @@ if [[ -e "${HOMEBREW_FORMULA_PATH}/coreutils" ]] ; then
 	export MANPATH="${HOMEBREW_FORMULA_PATH}/coreutils/libexec/gnuman:$MANPATH"
 fi
 
+##
+# fzf
+pathmunge "/usr/local/opt/fzf/bin"
+
 # Source google-cloud-sdk gcloud utilities
 # https://cloud.google.com/sdk/docs/quickstarts
 if [ -n "$ZSH_VERSION" ]; then
@@ -121,8 +125,13 @@ pathmunge "${XDG_DATA_HOME}/gem/bin"
 pathmunge "${HOME}/.cargo/bin"
 
 ##
-# Node 8.
+# Node.
 pathmunge "/usr/local/opt/node@8/bin"
+pathmunge "/usr/local/opt/node@10/bin"
+
+##
+# Redis 3.2
+pathmunge "/usr/local/opt/redis@3.2/bin"
 
 ##
 # Composer global installs.

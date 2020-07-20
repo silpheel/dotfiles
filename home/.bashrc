@@ -29,6 +29,10 @@ shopt -s dirspell 2&>/dev/null
 shopt -s autocd 2&>/dev/null
 
 ##
+# Add GPG key to bash profile.
+export GPG_TTY=$(tty)
+
+##
 # Set default editor
 export EDITOR=vim
 
@@ -172,6 +176,28 @@ export CLOUDSDK_PYTHON=""
 export GOOGLE_APPLICATION_CREDENTIALS=""
 
 ##
+# Boto config used by gsutil.
+#
+# https://cloud.google.com/storage/docs/boto-gsutil
+export BOTO_CONFIG="${XDG_CONFIG_HOME}/gsutil/.boto"
+
+##
+# ripgrep
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config"
+export RIPGREP_IGNORE_PATH="${XDG_CONFIG_HOME}/ripgrep/ignore"
+
+##
+# fzf
+# See path and completions for other sections.
+export FZF_DEFAULT_COMMAND="rg --files --ignore-file=${RIPGREP_IGNORE_PATH} 2> /dev/null"
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+##
+# httpie
+export HTTPIE_CONFIG_DIR="${XDG_CONFIG_HOME}/httpie"
+
+##
 # Verify and export package manager variables for dotfiles, and Generate MD5s.
 # Only source this, because executing it will not add hashes to current shell.
 #source "${DOTFILES_PATH}/bin/dpm" --verify
@@ -277,3 +303,4 @@ fi
 CDPATH=":.:${HOME}:${PROJECTS_PATH}:${PROJECTS_PATH_POPULAR}:${CDPATH}:"
 
 eval $(linus _completion --generate-hook --shell-type bash)
+

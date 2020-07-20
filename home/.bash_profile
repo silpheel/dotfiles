@@ -1,5 +1,7 @@
 # vim: ft=sh
 
+eval $(linus _completion --generate-hook --shell-type bash)
+
 if [[ -f "${HOME}/.bashrc" ]]; then
 	source "${HOME}/.bashrc"
 fi

@@ -276,3 +276,4 @@ fi
 # present working directory is first, regardless of anything else being set.
 CDPATH=":.:${HOME}:${PROJECTS_PATH}:${PROJECTS_PATH_POPULAR}:${CDPATH}:"
 
+eval $(linus _completion --generate-hook --shell-type bash)

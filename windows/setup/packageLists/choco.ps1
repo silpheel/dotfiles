@@ -1,17 +1,17 @@
 $Global:chocoPackageList =
 ## SYSTEM AND CLI
-"curl",
-"nuget.commandline",
-"webpi",
+# "curl",
+# "nuget.commandline",
+# "webpi",
 "git.install",
 "nvm.portable",
-"python3",
+# "python3",
 # "ruby",
-"php",
-"github-Desktop",
+# "php",
+# "github-Desktop",
 "windows-sdk-10-version-1903-all",
 "seer",
-"vscode",
+# "vscode",
 
 ## FONTS
 "sourcecodepro",
@@ -21,29 +21,30 @@ $Global:chocoPackageList =
 
 ## DEV TOOLS AND FRAMEWORKS
 "atom",
-"Fiddler",
-"vim",
-"winmerge",
+# "Fiddler",
+# "vim",
+# "winmerge",
 "notepadplusplus.install",
 "hxd",
-"heroku-cli",
+# "heroku-cli",
 # "postgresql12", # password required, need to do it manually
 
 ## SYSTEM FUNCTIONALITY
 "7zip",
 "autohotkey.portable",
 "Everything",
-"icloud",  # make sure WindowsMediaPlayer optionl windows feature is enabled
+"icloud",  # make sure WindowsMediaPlayer optional windows feature is enabled
 "nircmd",
 "procexp",
 "revo-uninstaller",
 "sharex",
 "switcheroo",
 "sysinternals",
-"spacesniffer",
 "wiztree",
 "freecommander-xe.install",
 "k-litecodecpackfull",
+"sharex"
+"k-litecodecpackfull"
 
 ## CONSOLES
 "alacritty",
@@ -51,7 +52,6 @@ $Global:chocoPackageList =
 "microsoft-windows-terminal",
 
 ## READERS
-"aimp",
 "calibre",
 "fsviewer",
 "sumatrapdf",
@@ -72,4 +72,9 @@ $Global:chocoPackageList =
 "Franz",
 "gimp",
 "mkvtoolnix",
-"qbittorrent"
+"tixati"
+"thunderbird"
+"station"
+"renamemytvseries"
+"malwarebytes"
+"ccleaner"
